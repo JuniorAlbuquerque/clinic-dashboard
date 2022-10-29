@@ -8,7 +8,7 @@ import RedirectRoute from './Redirect'
 const Routes: FC = () => {
   return useRoutes([
     {
-      element: <Outlet />,
+      // element: <Outlet />,
       children: [
         AuthRoutes,
         {

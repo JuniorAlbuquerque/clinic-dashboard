@@ -10,7 +10,7 @@ import { UserLoginData } from "./globalTypes";
 // ====================================================
 
 export interface Login_login_user {
-  __typename?: "User";
+  __typename: "User";
   email: string;
   name: string;
   id: string;

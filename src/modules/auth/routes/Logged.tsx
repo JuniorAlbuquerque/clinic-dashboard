@@ -1,11 +1,11 @@
-import { useUserStore } from '@/modules/auth/store/User'
 import { FC } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const Logged: FC = () => {
-  const token = useUserStore((state) => state.token)
+  const { isLogged } = useAuth()
 
-  if (token) return <Navigate to="/" />
+  if (isLogged) return <Navigate to="/" />
 
   return <Outlet />
 }

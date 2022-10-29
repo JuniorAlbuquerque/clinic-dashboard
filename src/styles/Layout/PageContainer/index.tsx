@@ -8,7 +8,7 @@ type PageContainerProps = {
 
 const PageContainer: FC<PageContainerProps> = ({ children, className }) => {
   return (
-    <div className={classNames('flex flex-col w-full h-screen', className)}>
+    <div className={classNames('flex flex-col w-full h-full', className)}>
       {children}
     </div>
   )

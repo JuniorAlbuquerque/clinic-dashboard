@@ -18,6 +18,8 @@ body {
   padding: 0;
 }
 
+html,body { height: 100%; margin: 0px; padding: 0px; }
+
 button,
 input,
 optgroup,
@@ -62,7 +64,3 @@ ul {
   padding: 0;
 }
 
-button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-}

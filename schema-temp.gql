@@ -33,23 +33,52 @@ directive @connection(
 ) on FIELD
 
 type Query {
+  getWeekAppointments(end_date: String!, initial_date: String!, user_id: Float!): [AppointmentModel!]
   getUserInfo(id: Float!): User
 }
 
-type User {
+type AppointmentModel {
   id: ID!
-  email: String!
-  name: String!
-  password: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime!
+  date: DateTime!
+  initial_hour: String!
+  end_hour: String!
+  patients_packages: PatientPackageModel!
+  patient: PatientModel!
 }
 
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+type PatientPackageModel {
+  name: String!
+  package: PackageModel!
+}
+
+type PackageModel {
+  name: String!
+  treatment: TreatmentModel!
+}
+
+type TreatmentModel {
+  name: String!
+}
+
+type PatientModel {
+  name: String!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  role: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+}
 
 type Mutation {
   login(data: UserLoginData!): Auth!
