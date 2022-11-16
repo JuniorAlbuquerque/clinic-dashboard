@@ -1,5 +1,10 @@
 import { useUserStore } from '@/modules/auth/store/User'
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  createHttpLink,
+  from,
+  InMemoryCache
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 
@@ -9,16 +14,12 @@ const httpLink = createHttpLink({
 
 const errorControl = onError(({ networkError, graphQLErrors }) => {
   if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        ' [GraphQL error]: Message',
-        message,
-        ', Location: ',
-        locations,
-        ', Path: ',
-        path
-      )
-    )
+    graphQLErrors.map(({ message }) => {
+      if (message.toLowerCase().includes('access denied')) {
+        useUserStore.persist.clearStorage()
+        window.location.href = '/login'
+      }
+    })
   }
   if (networkError) {
     console.log(' [Network error]:', networkError)
@@ -37,6 +38,6 @@ const authLink = setContext((_, { headers }) => {
 })
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: from([authLink, errorControl, httpLink]),
   cache: new InMemoryCache()
 })
