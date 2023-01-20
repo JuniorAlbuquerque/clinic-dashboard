@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({ children, className, busy, ...rest }) => {
     <button
       className={classNames(
         className,
-        'bg-primary-700 rounded-2xl px-4 py-4 text-white transition-all duration-300 hover:brightness-90 flex items-center justify-center'
+        'bg-primary-500 hover:bg-primary-600 rounded-lg px-4 py-2 text-white transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
       )}
       disabled={busy || rest.disabled}
       {...rest}
@@ -36,7 +36,9 @@ const Button: FC<ButtonProps> = ({ children, className, busy, ...rest }) => {
         </svg>
       )}
 
-      <Text renderAs="span">{children}</Text>
+      <Text renderAs="span" className="text-sm">
+        {children}
+      </Text>
     </button>
   )
 }

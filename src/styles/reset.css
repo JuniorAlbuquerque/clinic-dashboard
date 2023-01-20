@@ -1,34 +1,49 @@
 *,
 ::before,
 ::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-	line-height: 1.15; /* 1 */
-	-webkit-text-size-adjust: 100%; /* 2 */
-	-moz-tab-size: 4; /* 3 */
-	tab-size: 4; /* 3 */
-  margin: 0; /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+  -moz-tab-size: 4;
+  /* 3 */
+  tab-size: 4;
+  /* 3 */
+  margin: 0;
+  /* 1 */
   padding: 0;
 }
 
 body {
-	margin: 0; /* 1 */
+  margin: 0;
+  /* 1 */
   padding: 0;
 }
 
-html,body { height: 100%; margin: 0px; padding: 0px; }
+html,
+body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
 
 button,
 input,
 optgroup,
 select,
 textarea {
-	font-family: inherit; /* 1 */
-	font-size: 100%; /* 1 */
-	line-height: 1.15; /* 1 */
-	margin: 0; /* 2 */
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
 }
 
 blockquote,
@@ -64,3 +79,82 @@ ul {
   padding: 0;
 }
 
+a:hover,
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+}
+
+.rbc-time-content::-webkit-scrollbar-thumb {
+  background: #AD8ABE;
+  border-radius: 1rem;
+}
+
+.rbc-time-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.rbc-time-content::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+.rbc-time-content>*+*>*,
+.rbc-time-header-content,
+.rbc-day-bg+.rbc-day-bg,
+.rbc-header+.rbc-header {
+  border-left: 1px solid #f3f4f6;
+}
+
+.rbc-day-bg+.rbc-day-bg,
+.rbc-header+.rbc-header {
+  margin-left: 0.5rem;
+}
+
+
+
+.rbc-timeslot-group,
+.rbc-header {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rbc-time-header.rbc-overflowing {
+  border-right: 1px solid #f3f4f6;
+}
+
+.rbc-time-view {
+  border: 1px solid #f3f4f6;
+  border-radius: 0.8rem;
+}
+
+.rbc-time-content {
+  border-top: 2px solid #e5e7eb;
+}
+
+.rbc-label {
+  font-size: 0.75rem;
+  padding-right: 0.6rem;
+  color: #9ca3af;
+}
+
+.rbc-now .rbc-button-link {
+  background: #592D6E !important;
+  width: 2rem;
+  height: 1.8rem;
+  border-radius: 20rem;
+  color: #ffff;
+}
+
+.rbc-button-link {
+  font-size: .8rem;
+}
+
+.rbc-row-segment {
+  padding: 0 1px 1px 6px;
+}
+
+.rbc-current-time-indicator {
+  background: rgba(89, 45, 110, 0.466);
+  height: .25rem;
+  border-radius: 10rem;
+}

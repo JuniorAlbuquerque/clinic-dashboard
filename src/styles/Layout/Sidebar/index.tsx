@@ -5,34 +5,35 @@ import {
   CurrencyDollarIcon
 } from '@heroicons/react/24/solid'
 import { ReactComponent as LogoFlower } from '@/assets/flower.svg'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import { menuItems } from './menu-items'
 
 const Sidebar: FC = () => {
   return (
-    <div className="flex flex-col gap-8 w-20 h-auto bg-primary-700 text-white items-center px-8 py-4">
+    <div className="flex flex-col fixed gap-8 w-20 h-screen z-50 bg-primary-700 text-white items-center px-8 py-4">
       <Link to="/home">
         <LogoFlower width={46} height={50} />
       </Link>
 
       <nav>
         <ul className="flex flex-col gap-4">
-          <Link to="/home">
-            <li className="p-2 bg-[#311B3A] rounded-md flex items-center">
-              <HomeIcon width={20} className="text-white" />
-            </li>
-          </Link>
+          {menuItems?.map((menu) => {
+            const Icon = menu.icon
 
-          <Link to="/home">
-            <li className="p-2 bg-[#311B3A] rounded-md flex items-center">
-              <CalendarIcon width={20} className="text-gray-600" />
-            </li>
-          </Link>
-
-          <Link to="/home">
-            <li className="p-2 bg-[#311B3A] rounded-md flex items-center">
-              <CurrencyDollarIcon width={20} className="text-gray-600" />
-            </li>
-          </Link>
+            return (
+              <NavLink
+                to={menu.path}
+                key={menu.path}
+                className={({ isActive }) =>
+                  `p-2 bg-[#311B3A] rounded-md flex items-center hover:text-white transition-all ${
+                    isActive ? 'text-white' : 'text-gray-700'
+                  }`
+                }
+              >
+                <Icon width={20} />
+              </NavLink>
+            )
+          })}
         </ul>
       </nav>
     </div>

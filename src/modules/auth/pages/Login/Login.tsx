@@ -41,7 +41,7 @@ const Login: FC = () => {
   }
 
   return (
-    <PageContainer>
+    <PageContainer fullHeight>
       <div className="grid md:grid-cols-2 flex-1">
         <div className="bg-primary-700 p-12 hidden md:flex items-center justify-center ">
           <img

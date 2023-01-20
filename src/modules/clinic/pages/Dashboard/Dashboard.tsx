@@ -1,7 +1,6 @@
 import AppointmentCard from '@/components/AppointmentCard'
 import { Text } from '@/components/Text'
 import WeekCalendar from '@/components/WeekCalendar'
-import { useUserStore } from '@/modules/auth/store/User'
 import PageContainer from '@/styles/Layout/PageContainer'
 import { format } from 'date-fns'
 import { FC, useState } from 'react'
@@ -9,11 +8,14 @@ import { useWeekAppointments } from '../../hooks/appointments/useWeekAppointment
 import { ReactComponent as EmptyIcon } from '@/assets/empty.svg'
 import Spinner from '@/components/Spinner'
 import { dayTime } from '@/utils/isDayTime'
+import ClinicInfo from '../../components/ClinicInfo'
+import { useAuth } from '@/modules/auth/hooks/useAuth'
 
 const Dashboard: FC = () => {
-  const user = useUserStore((state) => state.user)
   const [initialDate, setInitialDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
+
+  const { user } = useAuth()
 
   const { data, loading } = useWeekAppointments(
     parseInt(user?.id),
@@ -25,14 +27,15 @@ const Dashboard: FC = () => {
     setInitialDate(date)
     setEndDate(date)
   }
+
   return (
-    <PageContainer className="bg-primary-50 rounded-l-2xl">
-      <div className="flex flex-col min-h-screen lg:flex-row">
-        <div className="lg:flex-1 p-8">
+    <PageContainer className="bg-primary-50 rounded-l-2xl ml-20">
+      <div className="flex flex-col min-h-screen lg:flex-row lg:justify-between">
+        <div className="lg:flex-1 flex flex-col gap-8 p-8">
           <div className="bg-white p-8 rounded-2xl flex flex-col">
             <Text renderAs="span" className="text-3xl font-medium">
               {dayTime().saudation},{' '}
-              <span className="text-primary-500">Junior</span>
+              <span className="text-primary-500">{user?.name}</span>
             </Text>
 
             <Text renderAs="span" className="text-gray-700">
@@ -40,9 +43,11 @@ const Dashboard: FC = () => {
               de trabalho
             </Text>
           </div>
+
+          <ClinicInfo />
         </div>
 
-        <div className="pb-8 px-8 pt-0 lg:pt-0 lg:px-0 lg:pb-0 bg-red w-4/12">
+        <div className="pb-8 px-8 pt-0 lg:pt-0 lg:px-0 lg:pb-0 bg-red">
           <div className="bg-white lg:max-w-2xl flex-1 h-full rounded-xl lg:rounded-none p-4 flex flex-col">
             <div className="mt-8">
               <WeekCalendar onChange={(date) => onChangeWeekDay(date)} />

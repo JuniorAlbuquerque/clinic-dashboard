@@ -15,11 +15,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { FC, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Text } from '../Text'
-import {
-  CalendarIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import Dropdown, { DropdownValue } from '../Dropdown'
 
 const daysOfWeek = 7

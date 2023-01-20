@@ -34,14 +34,15 @@ directive @connection(
 
 type Query {
   getWeekAppointments(end_date: String!, initial_date: String!, user_id: Float!): [AppointmentModel!]
+  getPatientCountList: PatientListCount
   getUserInfo(id: Float!): User
+  getProfessionalCountList: ProfessionalCountList
 }
 
 type AppointmentModel {
   id: ID!
-  date: DateTime!
-  initial_hour: String!
-  end_hour: String!
+  start_date: DateTime!
+  end_date: DateTime!
   patients_packages: PatientPackageModel!
   patient: PatientModel!
 }
@@ -69,19 +70,71 @@ type PatientModel {
   name: String!
 }
 
+type PatientListCount {
+  count: Float!
+  lastPatients: [LastPatientList!]!
+}
+
+type LastPatientList {
+  id: Float!
+  name: String!
+  birthdate: String!
+  appointments: [AppointmentList!]!
+  telephone: String!
+  patients_packages: [PackageList!]!
+}
+
+type AppointmentList {
+  start_date: DateTime!
+  end_date: DateTime!
+}
+
+type PackageList {
+  package: PackageItem!
+}
+
+type PackageItem {
+  name: String!
+  treatment: TreatmentItem!
+}
+
+type TreatmentItem {
+  name: String!
+}
+
 type User {
   id: ID!
   email: String!
   name: String!
   role: String!
   password: String!
+  clinic_id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime!
 }
 
+type ProfessionalCountList {
+  count: Float!
+  professionalList: [ProfessionalList!]!
+}
+
+type ProfessionalList {
+  id: Float!
+  name: String!
+  email: String!
+  role: UserRoles!
+}
+
+enum UserRoles {
+  ADMIN
+  PROFESSIONAL
+  VIEWER
+}
+
 type Mutation {
   login(data: UserLoginData!): Auth!
+  createPatient(data: PatientInputData!): Patient!
   signUp(data: UserInputData!): User!
 }
 
@@ -95,8 +148,27 @@ input UserLoginData {
   password: String!
 }
 
+type Patient {
+  id: ID!
+  email: String!
+  name: String!
+  telephone: String!
+  birthdate: String!
+  clinic_id: ID!
+}
+
+input PatientInputData {
+  email: String!
+  name: String!
+  telephone: String!
+  birthdate: String!
+  clinic_id: Float!
+}
+
 input UserInputData {
   email: String!
   password: String!
   name: String!
+  clinic_id: Float!
+  role: UserRoles!
 }

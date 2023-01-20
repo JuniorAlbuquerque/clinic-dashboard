@@ -11,9 +11,8 @@ export const WEEK_APPOINTMENTS = gql`
       initial_date: $initialDate
       user_id: $userId
     ) {
-      date
-      initial_hour
-      end_hour
+      start_date
+      end_date
       id
       patients_packages {
         package {
@@ -24,6 +23,32 @@ export const WEEK_APPOINTMENTS = gql`
       }
       patient {
         name
+      }
+    }
+  }
+`
+
+export const PATIENT_LIST_COUNT = gql`
+  query GetPatientCountList {
+    getPatientCountList {
+      count
+      lastPatients {
+        id
+        name
+        birthdate
+        telephone
+        appointments {
+          start_date
+          end_date
+        }
+        patients_packages {
+          package {
+            name
+            treatment {
+              name
+            }
+          }
+        }
       }
     }
   }

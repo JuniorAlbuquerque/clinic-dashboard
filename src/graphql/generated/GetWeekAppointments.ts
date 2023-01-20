@@ -29,9 +29,8 @@ export interface GetWeekAppointments_getWeekAppointments_patient {
 
 export interface GetWeekAppointments_getWeekAppointments {
   __typename: "AppointmentModel";
-  date: any;
-  initial_hour: string;
-  end_hour: string;
+  start_date: any;
+  end_date: any;
   id: string;
   patients_packages: GetWeekAppointments_getWeekAppointments_patients_packages;
   patient: GetWeekAppointments_getWeekAppointments_patient;
