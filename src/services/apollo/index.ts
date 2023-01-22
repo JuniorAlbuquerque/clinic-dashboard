@@ -9,7 +9,7 @@ import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3333'
+  uri: import.meta.env.VITE_API_URL
 })
 
 const errorControl = onError(({ networkError, graphQLErrors }) => {

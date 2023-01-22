@@ -28,11 +28,17 @@ export function useLogin() {
         }
       })
     },
-    []
+    [mutationLogin, updateToken, updateUser]
   )
+
+  const signOut = useCallback(() => {
+    updateUser(null)
+    updateToken(null)
+  }, [updateToken, updateUser])
 
   return {
     login,
+    signOut,
     data,
     loading
   }

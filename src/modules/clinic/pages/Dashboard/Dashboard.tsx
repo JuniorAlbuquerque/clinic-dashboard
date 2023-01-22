@@ -82,7 +82,7 @@ const Dashboard: FC = () => {
                             item?.patients_packages?.package?.treatment?.name
                           }
                           variant="blue"
-                          footerText={item?.initial_hour}
+                          footerText={item?.start_date}
                           active={item.id === data?.getWeekAppointments[0]?.id}
                         />
                       ))}

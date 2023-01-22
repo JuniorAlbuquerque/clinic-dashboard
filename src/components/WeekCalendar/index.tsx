@@ -87,7 +87,7 @@ const WeekCalendar: FC<WeekCalendarProps> = ({ onChange }) => {
   }, [currentMonth, allMonths])
 
   useEffect(() => {
-    const date = new Date(2022, 0, 1)
+    const date = new Date(new Date().getFullYear(), 0, 1)
 
     const months = []
 

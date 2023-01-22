@@ -32,52 +32,16 @@ const locales = {
 
 const events: CustomEventProps[] = [
   {
-    start: new Date('2022-12-01T10:00'),
-    end: new Date('2022-12-01T11:00'),
+    start: new Date('2023-01-20T10:00'),
+    end: new Date('2023-01-20T11:00'),
     title: 'Pilates',
     desc: 'Saúde Batalha'
   },
   {
-    start: new Date('2022-12-01T08:30'),
-    end: new Date('2022-12-01T09:20'),
+    start: new Date('2023-01-21T08:30'),
+    end: new Date('2023-01-21T09:20'),
     title: 'Fisioterapia',
     desc: 'Edy Albuquerque'
-  },
-  {
-    start: new Date('2022-12-05T08:30'),
-    end: new Date('2022-12-05T09:20'),
-    title: 'Fisioterapia',
-    desc: 'Edy Albuquerque'
-  },
-  {
-    start: new Date('2022-12-02T10:00'),
-    end: new Date('2022-12-02T11:00'),
-    title: 'Pilates',
-    desc: 'Saúde Batalha'
-  },
-  {
-    start: new Date('2022-12-02T14:00'),
-    end: new Date('2022-12-02T15:00'),
-    title: 'Pilates',
-    desc: 'Paciente 1'
-  },
-  {
-    start: new Date('2022-12-02T14:00'),
-    end: new Date('2022-12-02T15:00'),
-    title: 'Pilates',
-    desc: 'Paciente 2'
-  },
-  {
-    start: new Date('2022-12-02T14:00'),
-    end: new Date('2022-12-02T15:00'),
-    title: 'Pilates',
-    desc: 'Paciente 3'
-  },
-  {
-    start: new Date('2022-12-03T18:00'),
-    end: new Date('2022-12-03T19:50'),
-    title: 'Fisioterapia',
-    desc: 'Júnior Albuquerque'
   }
 ]
 
@@ -302,9 +266,11 @@ const BigCalendar = () => {
           },
           agenda: {
             event: CustomEventAgenda,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             time: (time: any) => {
               return <div className="text-xs mt-3">{time.label}</div>
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             date: (date: any) => {
               return <div className="text-xs mt-3">{date.label}</div>
             }

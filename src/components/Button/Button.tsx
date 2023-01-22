@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({ children, className, busy, ...rest }) => {
     <button
       className={classNames(
         className,
-        'bg-primary-500 hover:bg-primary-600 rounded-lg px-4 py-2 text-white transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
+        'bg-primary-500 hover:bg-primary-600 rounded-lg px-4 py-3 text-white transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
       )}
       disabled={busy || rest.disabled}
       {...rest}

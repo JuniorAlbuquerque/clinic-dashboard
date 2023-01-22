@@ -63,7 +63,9 @@ const Patient = () => {
           onCancel={() => setOpenModal(false)}
           confirmText="asd"
           onSubmit={() => setOpenModal(false)}
-        />
+        >
+          Ola
+        </Modal>
       </div>
     </PageContainer>
   )
