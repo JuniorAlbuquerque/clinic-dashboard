@@ -34,7 +34,7 @@ const ClinicInfo = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-6 w-fit h-56">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-fit">
         <CardInfo
           variant="patient"
           active={selectedCard === 'patient'}

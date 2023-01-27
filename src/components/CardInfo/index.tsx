@@ -53,7 +53,7 @@ const CardInfo: FC<CardInfoProps> = ({ active, variant, count, onSelect }) => {
   return (
     <div
       className={`bg-white p-1 pt-4 cursor-pointer transition-all hover:scale-105 ${
-        active ? 'h-56' : 'h-52'
+        active ? 'h-48 md:h-56' : 'h-44 md:h-52'
       } w-fit rounded-3xl flex flex-col gap-4 items-center justify-between`}
       onClick={() => {
         onSelect && onSelect(variant)
@@ -74,12 +74,12 @@ const CardInfo: FC<CardInfoProps> = ({ active, variant, count, onSelect }) => {
 
       {active ? (
         <div
-          className={`${renderByVariant[variant].numberColor} text-white w-52 p-4 rounded-3xl flex items-center justify-center font-medium text-5xl`}
+          className={`${renderByVariant[variant].numberColor} text-white w-40 md:w-48 p-2 md:p-4 rounded-3xl flex items-center justify-center font-medium text-5xl`}
         >
           {count}
         </div>
       ) : (
-        <div className="text-black w-52 flex mb-4 items-center justify-center font-medium text-5xl">
+        <div className="text-black w-40 md:w-48 flex mb-4 items-center justify-center font-medium text-5xl">
           {count}
         </div>
       )}
