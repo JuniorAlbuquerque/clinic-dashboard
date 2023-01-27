@@ -53,3 +53,17 @@ export const PATIENT_LIST_COUNT = gql`
     }
   }
 `
+
+export const ALL_APPOINTMENTS = gql`
+  query GetAllAppointments {
+    getAllAppointments {
+      id
+      start_date
+      end_date
+      professional
+      patient
+      presence
+      treatment
+    }
+  }
+`

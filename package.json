@@ -13,7 +13,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "schema:download": "apollo client:download-schema --endpoint=http://localhost:3333/graphql schema-temp.gql",
+    "schema:download": "apollo client:download-schema --endpoint=http://localhost:3000/graphql schema-temp.gql",
     "codegen": "apollo codegen:generate --target typescript --excludes=node_modules/ --includes=src/graphql/**/*.ts --localSchemaFile schema-temp.gql --tagName=gql --outputFlat src/graphql/generated"
   },
   "dependencies": {

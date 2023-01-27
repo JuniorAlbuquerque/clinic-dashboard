@@ -7,6 +7,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum AppointmentStatus {
+  CONCLUDED = "CONCLUDED",
+  PATIENT_MISSED = "PATIENT_MISSED",
+  PENDING = "PENDING",
+}
+
 export interface UserLoginData {
   email: string;
   password: string;

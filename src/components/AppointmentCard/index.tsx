@@ -41,7 +41,7 @@ const AppointmentCard: FC<AppointmentCardProps> = ({
     <div className="flex flex-col gap-2 items-center">
       <div
         className={classNames(
-          'flex flex-col items-center cursor-pointer ease-in-out duration-300 scale-1 hover:scale-105 hover:bg-slate-50 p-4 gap-2 h-44 w-40 justify-between rounded-2xl',
+          'flex flex-col items-center cursor-pointer ease-in-out duration-300 scale-1 hover:scale-105 hover:bg-slate-50 p-4 gap-2 h-44 w-36 justify-between rounded-2xl',
           activeClass().card
         )}
       >
@@ -49,7 +49,7 @@ const AppointmentCard: FC<AppointmentCardProps> = ({
           <UserIcon width={20} />
         </div>
 
-        <Text renderAs="span" className="text-center font-semibold text-lg">
+        <Text renderAs="span" className="text-center font-semibold text-base">
           {text}
         </Text>
 

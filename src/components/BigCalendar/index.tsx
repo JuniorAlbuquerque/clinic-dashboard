@@ -9,7 +9,7 @@ import {
 } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay, isToday, isBefore } from 'date-fns'
 import pt from 'date-fns/locale/pt/index'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { classNames } from '@/utils/mergeClassName'
 import { Menu, Transition } from '@headlessui/react'
@@ -18,6 +18,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/24/solid'
+import { useAllAppointments } from '@/modules/clinic/hooks/appointments/useAllAppointments'
 
 type CustomEventProps = {
   start: Date
@@ -29,21 +30,6 @@ type CustomEventProps = {
 const locales = {
   'pt-BR': pt
 }
-
-const events: CustomEventProps[] = [
-  {
-    start: new Date('2023-01-20T10:00'),
-    end: new Date('2023-01-20T11:00'),
-    title: 'Pilates',
-    desc: 'Saúde Batalha'
-  },
-  {
-    start: new Date('2023-01-21T08:30'),
-    end: new Date('2023-01-21T09:20'),
-    title: 'Fisioterapia',
-    desc: 'Edy Albuquerque'
-  }
-]
 
 const localizer = dateFnsLocalizer({
   format,
@@ -201,6 +187,24 @@ const BigCalendar = () => {
     end: Date
     title: string
   }>(null)
+
+  const [events, setEvents] = useState<CustomEventProps[]>([])
+
+  const { data } = useAllAppointments()
+
+  useEffect(() => {
+    if (data?.getAllAppointments.length) {
+      const newEvents: CustomEventProps[] = data?.getAllAppointments.map(
+        (appointment) => ({
+          start: new Date(appointment.start_date),
+          end: new Date(appointment.end_date),
+          title: appointment.treatment,
+          desc: appointment.patient
+        })
+      )
+      setEvents(newEvents)
+    }
+  }, [data])
 
   return (
     <div className="w-full bg-white p-2 rounded-md">

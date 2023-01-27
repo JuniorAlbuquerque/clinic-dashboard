@@ -34,9 +34,16 @@ directive @connection(
 
 type Query {
   getWeekAppointments(end_date: String!, initial_date: String!, user_id: Float!): [AppointmentModel!]
+  getAllAppointments: [AllAppointments!]!
+  getPackagesByTreatment(treatment_id: Float!): [PackageByTreatment!]!
   getPatientCountList: PatientListCount
+  searchPatients(name: String!): [PatientSearch!]!
+  getPatientPackageCountList: PatientPackageCountList
+  getAllTreatments: [AllTreatments!]
   getUserInfo(id: Float!): User
   getProfessionalCountList: ProfessionalCountList
+  getProfessionals: [GetProfessionals!]!
+  getProfessionalSchedule(professional_id: Float!): [ProfessionalSchedule!]!
 }
 
 type AppointmentModel {
@@ -59,15 +66,37 @@ type PatientPackageModel {
 
 type PackageModel {
   name: String!
-  treatment: TreatmentModel!
+  treatment: TreatmentAppointmentModel!
 }
 
-type TreatmentModel {
+type TreatmentAppointmentModel {
   name: String!
 }
 
 type PatientModel {
   name: String!
+}
+
+type AllAppointments {
+  id: Float!
+  start_date: DateTime!
+  end_date: DateTime!
+  professional: String!
+  patient: String!
+  treatment: String!
+  presence: AppointmentStatus!
+}
+
+enum AppointmentStatus {
+  PENDING
+  PATIENT_MISSED
+  CONCLUDED
+}
+
+type PackageByTreatment {
+  id: ID!
+  name: String!
+  quantity: Float!
 }
 
 type PatientListCount {
@@ -102,6 +131,52 @@ type TreatmentItem {
   name: String!
 }
 
+type PatientSearch {
+  id: Float!
+  email: String!
+  name: String!
+}
+
+type PatientPackageCountList {
+  count: Float!
+  patientPackageList: [PatientPackage!]!
+}
+
+type PatientPackage {
+  id: ID!
+  patient: UserPackageModel!
+  user: UserPackageModel!
+  initialDate: DateTime!
+  endDate: DateTime!
+  payment_status: PaymentStatus!
+  package: PackageModelTreatment!
+}
+
+type UserPackageModel {
+  id: ID!
+  name: String!
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  BLOCK
+}
+
+type PackageModelTreatment {
+  treatment: TreatmentModelPackage!
+}
+
+type TreatmentModelPackage {
+  name: String!
+}
+
+type AllTreatments {
+  id: ID!
+  name: String!
+  value: Float!
+}
+
 type User {
   id: ID!
   email: String!
@@ -132,9 +207,22 @@ enum UserRoles {
   VIEWER
 }
 
+type GetProfessionals {
+  id: Float!
+  name: String!
+  email: String!
+}
+
+type ProfessionalSchedule {
+  start_date: DateTime!
+  patient: String!
+}
+
 type Mutation {
   login(data: UserLoginData!): Auth!
   createPatient(data: PatientInputData!): Patient!
+  createPatientPackage(data: PatientPackageInputData!): PatientPackageCreate!
+  createTreatment(packageCount: [Float!]!, data: TreatmentInputData!): TreatmentModel!
   signUp(data: UserInputData!): User!
 }
 
@@ -163,6 +251,59 @@ input PatientInputData {
   telephone: String!
   birthdate: String!
   clinic_id: Float!
+}
+
+type PatientPackageCreate {
+  message: String!
+}
+
+input PatientPackageInputData {
+  appointment: AppointmentInputData!
+  schedule: ScheduleInputData!
+  payment: PaymentInputData!
+}
+
+input AppointmentInputData {
+  package_id: Float!
+  patient_id: Float!
+  professional_id: Float!
+}
+
+input ScheduleInputData {
+  initial_date: DateTime!
+  appointment_days: [AppointmentDays!]!
+}
+
+input AppointmentDays {
+  start_date: DateTime!
+  end_date: DateTime!
+}
+
+input PaymentInputData {
+  discount: Float!
+  payment_type: PaymentType!
+  payment_schedule: Boolean!
+  payment_date: DateTime!
+  payment_status: PaymentStatus!
+}
+
+enum PaymentType {
+  CREDIT_CARD
+  MONEY
+}
+
+type TreatmentModel {
+  id: ID!
+  name: String!
+  value: Float!
+  active: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input TreatmentInputData {
+  name: String!
+  value: Float!
 }
 
 input UserInputData {

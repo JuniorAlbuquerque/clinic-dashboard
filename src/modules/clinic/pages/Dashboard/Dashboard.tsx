@@ -73,7 +73,7 @@ const Dashboard: FC = () => {
                   ) : null}
 
                   {!!data?.getWeekAppointments?.length && (
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="flex gap-4 flex-wrap max-w-[480px]">
                       {data?.getWeekAppointments?.map((item) => (
                         <AppointmentCard
                           key={item.id}
@@ -82,7 +82,10 @@ const Dashboard: FC = () => {
                             item?.patients_packages?.package?.treatment?.name
                           }
                           variant="blue"
-                          footerText={item?.start_date}
+                          footerText={format(
+                            new Date(item?.start_date),
+                            'hh:mm'
+                          )}
                           active={item.id === data?.getWeekAppointments[0]?.id}
                         />
                       ))}

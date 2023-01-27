@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface GetWeekAppointments_getWeekAppointments_patients_packages_package_treatment {
-  __typename: "TreatmentModel";
+  __typename: "TreatmentAppointmentModel";
   name: string;
 }
 
