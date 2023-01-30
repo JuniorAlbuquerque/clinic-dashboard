@@ -3,8 +3,11 @@ import BreadCrumb from '@/components/BreadCrumb'
 import Button from '@/components/Button/Button'
 import PageContainer from '@/styles/Layout/PageContainer'
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Schedule: FC = () => {
+  const navigate = useNavigate()
+
   return (
     <PageContainer className="bg-primary-50 rounded-l-2xl ml-20">
       <div className="flex flex-col gap-4 min-h-screen p-8">
@@ -19,7 +22,12 @@ const Schedule: FC = () => {
             ]}
           />
 
-          <Button className="px-10">Novo Atendimento / Pacote</Button>
+          <Button
+            className="px-10"
+            onClick={() => navigate('/schedule/new-appointment')}
+          >
+            Novo Atendimento / Pacote
+          </Button>
         </div>
 
         <BigCalendar />

@@ -23,7 +23,7 @@ export default function BreadCrumb({ pages }: BreadCrumbProps) {
         </li>
         {pages.map((page) => (
           <li key={page.title}>
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <ChevronRightIcon
                 className="h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"

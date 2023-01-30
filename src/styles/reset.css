@@ -162,3 +162,33 @@ a:active {
 .rbc-allday-cell {
   height: 40px !important;
 }
+
+/* Date Picker */
+.custom-calendar {
+  font-family: 'Poppins', sans-serif !important;
+  border-radius: 10px;
+  border: 1px solid #dddddd !important;
+}
+
+.react-calendar__tile--active {
+  background: #773C92 !important;
+  border-radius: 8px;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #773C92 !important;
+}
+
+.react-calendar__tile--now {
+  background: #E4D8E9 !important;
+  border-radius: 8px;
+}
+
+.react-date-picker__wrapper {
+  width: 100%;
+  border: 0 !important;
+}
+
+.react-date-picker__calendar--open, .react-date-picker__calendar--closed {
+  position: absolute;
+}
