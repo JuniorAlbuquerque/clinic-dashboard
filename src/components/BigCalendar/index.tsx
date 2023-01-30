@@ -215,7 +215,7 @@ const BigCalendar = () => {
         onSelectEvent={(date) => {
           setDate(date)
         }}
-        style={{ height: 'calc(100vh - 168px)' }}
+        style={{ height: 'calc(100vh - 164px)' }}
         defaultView="week"
         defaultDate={new Date()}
         step={30}

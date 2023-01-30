@@ -29,6 +29,7 @@ body {
   height: 100%;
   margin: 0px;
   padding: 0px;
+  overflow: hidden;
 }
 
 button,
@@ -180,8 +181,9 @@ a:active {
 }
 
 .react-calendar__tile--now {
-  background: #E4D8E9 !important;
+  background: #e4d8e986 !important;
   border-radius: 8px;
+  color: #773C92 !important;
 }
 
 .react-date-picker__wrapper {
@@ -191,4 +193,13 @@ a:active {
 
 .react-date-picker__calendar--open, .react-date-picker__calendar--closed {
   position: absolute;
+}
+
+.custom-calendar {
+  padding: 8px;
+}
+
+.custom-calendar button:hover {
+  border-radius: 8px;
+  background: #c7c7c748 !important;
 }

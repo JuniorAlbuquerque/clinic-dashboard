@@ -36,8 +36,8 @@ const Patient = () => {
   })
 
   return (
-    <PageContainer className="bg-primary-50 rounded-l-2xl ml-20">
-      <div className="flex flex-col gap-4 min-h-screen p-8">
+    <PageContainer className="bg-primary-50 rounded-l-2xl">
+      <div className="flex flex-col gap-4 p-8">
         <div className="bg-white p-4 h-fit w-full rounded-lg flex items-center justify-between">
           <BreadCrumb
             pages={[

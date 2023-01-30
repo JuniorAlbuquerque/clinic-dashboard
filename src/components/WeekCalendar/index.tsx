@@ -134,7 +134,7 @@ const WeekCalendar: FC<WeekCalendarProps> = ({ onChange }) => {
         </div>
       </div>
 
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentWeek ? currentWeek : 'empty'}
           initial={{ x: 10, opacity: 0.5 }}

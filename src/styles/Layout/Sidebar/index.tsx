@@ -9,7 +9,7 @@ const Sidebar: FC = () => {
   const [openModalLogout, setOpenModalLogout] = useState(false)
 
   return (
-    <div className="flex flex-col fixed gap-8 w-20 h-screen z-50 bg-primary-700 text-white items-center px-8 py-4">
+    <div className="flex flex-col gap-8 w-20 h-screen z-50 bg-primary-700 text-white items-center px-8 py-4">
       <Link to="/home">
         <LogoFlower width={46} height={50} />
       </Link>

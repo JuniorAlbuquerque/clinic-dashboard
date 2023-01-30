@@ -29,7 +29,7 @@ const Dashboard: FC = () => {
   }
 
   return (
-    <PageContainer className="bg-primary-50 rounded-l-2xl ml-20">
+    <PageContainer className="bg-primary-50 rounded-l-2xl overflow-y-auto">
       <div className="flex flex-col min-h-screen xl:flex-row lg:justify-between">
         <div className="lg:flex-1 flex flex-col gap-8 p-8">
           <div className="bg-white p-8 rounded-2xl flex flex-col">
@@ -48,7 +48,7 @@ const Dashboard: FC = () => {
         </div>
 
         <div className="pb-8 px-8 pt-0 xl:pt-0 xl:px-0 xl:pb-0">
-          <div className="bg-white xl:max-w-2xl flex-1 h-full rounded-xl lg:rounded-none p-4 flex flex-col">
+          <div className="bg-white xl:max-w-2xl flex-1 h-full rounded-xl lg:rounded-none p-4 flex flex-col overflow-hidden">
             <div className="mt-8">
               <WeekCalendar onChange={(date) => onChangeWeekDay(date)} />
             </div>

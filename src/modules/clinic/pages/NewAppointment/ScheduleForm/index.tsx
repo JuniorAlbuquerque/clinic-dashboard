@@ -1,6 +1,6 @@
 import { DatePicker } from '@/components/DatePicker'
 import { GroupDays } from '@/components/GroupDays'
-import Input from '@/components/Input/Input'
+import { Input } from '@/components/Form/Input'
 import { Text } from '@/components/Text'
 import { FC, Fragment, useState } from 'react'
 import { Control, Controller } from 'react-hook-form'

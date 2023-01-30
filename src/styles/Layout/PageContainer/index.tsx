@@ -7,19 +7,9 @@ type PageContainerProps = {
   fullHeight?: boolean
 }
 
-const PageContainer: FC<PageContainerProps> = ({
-  children,
-  className,
-  fullHeight
-}) => {
+const PageContainer: FC<PageContainerProps> = ({ children, className }) => {
   return (
-    <div
-      className={classNames(
-        'flex flex-col w-full',
-        fullHeight ? 'h-screen' : 'h-full',
-        className
-      )}
-    >
+    <div className={classNames('flex flex-col min-h-screen w-full', className)}>
       {children}
     </div>
   )
