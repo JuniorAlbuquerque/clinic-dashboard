@@ -1,5 +1,6 @@
 import { ComboBox } from '@/components/Form/ComboBox'
 import { ListBox } from '@/components/Form/ListBox'
+import { TextArea } from '@/components/Form/TextArea'
 import { Text } from '@/components/Text'
 import { FC, Fragment } from 'react'
 import { Control, Controller } from 'react-hook-form'
@@ -23,11 +24,13 @@ const fakeTreatments = [
 const fakePackages = [
   {
     id: 1,
-    name: '1 sessão - Fisioterapia (R$ 50.00)'
+    name: '1 sessão - Fisioterapia (R$ 50.00)',
+    quantity: 1
   },
   {
     id: 2,
-    name: '8 sessões - Fisioterpia (R$ 500.00)'
+    name: '8 sessões - Fisioterpia (R$ 500.00)',
+    quantity: 8
   }
 ]
 
@@ -65,7 +68,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
 
       <div className="mt-4 grid md:grid-cols-2 gap-4">
         <Controller
-          name="appointment.treatment_id"
+          name="appointment.treatment"
           control={control}
           render={({ field: { value, onChange } }) => {
             return (
@@ -80,7 +83,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
         />
 
         <Controller
-          name="appointment.package_id"
+          name="appointment.package"
           control={control}
           render={({ field: { value, onChange } }) => {
             return (
@@ -119,6 +122,23 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
                 data={fakeProfessionals}
                 label="Profissional"
                 onChange={onChange}
+              />
+            )
+          }}
+        />
+
+        <Controller
+          name="appointment.description"
+          control={control}
+          render={({ field: { name, value, onChange, onBlur } }) => {
+            return (
+              <TextArea
+                label="Descrição/História"
+                rootClassName="md:col-span-2"
+                name={name}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
               />
             )
           }}
