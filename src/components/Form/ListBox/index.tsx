@@ -1,42 +1,24 @@
-import { FC, Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { classNames } from '@/utils/mergeClassName'
 import { clsx } from 'clsx'
 
-type ListBoxItem = {
+type ListBoxItem<T> = T & {
   id: number
   name: string
 }
 
-type ListBoxProps = {
-  data: ListBoxItem[]
+type ListBoxProps<T> = {
+  data: ListBoxItem<T>[]
   label?: string
-  value?: ListBoxItem['id']
-  onChange?(id: number, item?: ListBoxItem): void
+  value?: ListBoxItem<T>
+  onChange?(item?: ListBoxItem<T>): void
 }
 
-export const ListBox: FC<ListBoxProps> = ({ data, label, value, onChange }) => {
-  const [selectedItem, setSelectedItem] = useState(null)
-
-  const handleChangeCurrentItem = (item: ListBoxItem) => {
-    if (onChange) {
-      onChange(item?.id, item)
-    }
-  }
-
-  useEffect(() => {
-    if (typeof value === 'number') {
-      const findValue = data?.find((item) => item.id === value)
-
-      if (typeof findValue?.id === 'number') {
-        setSelectedItem(findValue)
-      }
-    }
-  }, [data, value])
-
+export function ListBox<T>({ data, label, value, onChange }: ListBoxProps<T>) {
   return (
-    <Listbox value={selectedItem} onChange={handleChangeCurrentItem}>
+    <Listbox value={value ?? null} onChange={onChange}>
       {({ open }) => (
         <div>
           {!!label && (
@@ -46,13 +28,13 @@ export const ListBox: FC<ListBoxProps> = ({ data, label, value, onChange }) => {
           )}
 
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm">
               <span
                 className={clsx('block truncate', {
-                  'text-slate-500': !selectedItem
+                  'text-slate-500': !value
                 })}
               >
-                {selectedItem?.name ?? 'Selecione'}
+                {value?.name ?? 'Selecione'}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon

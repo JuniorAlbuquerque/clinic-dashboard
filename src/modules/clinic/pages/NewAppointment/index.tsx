@@ -7,10 +7,18 @@ import { ScheduleForm } from './ScheduleForm'
 
 export type AppointmentData = {
   appointment: {
-    treatment_id: number
-    package_id: number
+    treatment: {
+      id: number
+      name: string
+    }
+    package: {
+      id: number
+      name: string
+      quantity: number
+    }
     patient_id: number
     professional_id: number
+    description: string
   }
   schedule: {
     initial_date: Date
@@ -18,7 +26,7 @@ export type AppointmentData = {
 }
 
 const NewAppointment = () => {
-  const { handleSubmit, control } = useForm<AppointmentData>({})
+  const { handleSubmit, control, watch } = useForm<AppointmentData>({})
 
   const onSubmit = (data: AppointmentData) => {
     console.log(data)
@@ -53,7 +61,7 @@ const NewAppointment = () => {
         </div>
 
         <div className="bg-white p-4 h-fit w-full rounded-lg">
-          <ScheduleForm control={control} />
+          <ScheduleForm control={control} watch={watch} />
         </div>
       </div>
     </PageContainer>
