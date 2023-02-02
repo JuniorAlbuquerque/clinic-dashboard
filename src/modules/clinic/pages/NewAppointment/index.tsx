@@ -3,6 +3,7 @@ import Button from '@/components/Button/Button'
 import PageContainer from '@/styles/Layout/PageContainer'
 import { useForm } from 'react-hook-form'
 import { AppointmentForm } from './AppointmentForm'
+import { PaymentForm } from './PaymentForm'
 import { ScheduleForm } from './ScheduleForm'
 
 export type AppointmentData = {
@@ -22,6 +23,10 @@ export type AppointmentData = {
   }
   schedule: {
     initial_date: Date
+  }
+  payment: {
+    discount: number
+    payment_date: Date
   }
 }
 
@@ -62,6 +67,10 @@ const NewAppointment = () => {
 
         <div className="bg-white p-4 h-fit w-full rounded-lg">
           <ScheduleForm control={control} watch={watch} />
+        </div>
+
+        <div className="bg-white p-4 h-fit w-full rounded-lg">
+          <PaymentForm control={control} />
         </div>
       </div>
     </PageContainer>

@@ -74,10 +74,6 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
     [days, isAllowedDay]
   )
 
-  // const debouncedGenerateDays = useCallback(() => {
-  //   debounce(generateDays, 1000)
-  // }, [])
-
   useDebouncedEffect(
     () => {
       if (Object.values(days).filter(Boolean).length === 0) {
@@ -94,7 +90,7 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [packageQuantity, bestHour, initial_date, days],
-    500
+    300
   )
 
   return (
