@@ -2,61 +2,30 @@ import { ComboBox } from '@/components/Form/ComboBox'
 import { ListBox } from '@/components/Form/ListBox'
 import { TextArea } from '@/components/Form/TextArea'
 import { Text } from '@/components/Text'
+import { useAllPackagesByTreatment } from '@/modules/clinic/hooks/packages/useAllPackagesByTreatment'
+import { useAllPatients } from '@/modules/clinic/hooks/patient/useAllPatients'
+import { useAllProfessionals } from '@/modules/clinic/hooks/professional/useAllProfessionals'
+import { useAllTreatments } from '@/modules/clinic/hooks/treatments/useAllTreatments'
 import { FC, Fragment } from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, UseFormWatch } from 'react-hook-form'
 import { AppointmentData } from '..'
 
 type AppointmentFormProps = {
   control: Control<AppointmentData>
+  watch?: UseFormWatch<AppointmentData>
 }
 
-const fakeTreatments = [
-  {
-    id: 0,
-    name: 'Fisioterapia (valor un. R$ 50.00)'
-  },
-  {
-    id: 1,
-    name: 'Pilates (valor un. R$ 60.00)'
-  }
-]
+export const AppointmentForm: FC<AppointmentFormProps> = ({
+  control,
+  watch
+}) => {
+  const selectedTreatment = watch('appointment.treatment')?.id
 
-const fakePackages = [
-  {
-    id: 1,
-    name: '1 sessão - Fisioterapia (R$ 50.00)',
-    quantity: 1
-  },
-  {
-    id: 2,
-    name: '8 sessões - Fisioterpia (R$ 500.00)',
-    quantity: 8
-  }
-]
+  const { data: treatments } = useAllTreatments()
+  const { data: packages } = useAllPackagesByTreatment(selectedTreatment)
+  const { data: allPatients } = useAllPatients()
+  const { data: allProfessionals } = useAllProfessionals()
 
-const fakePatients = [
-  {
-    id: 0,
-    name: 'Júnior Albuquerque'
-  },
-  {
-    id: 1,
-    name: 'Saúde Batalha'
-  }
-]
-
-const fakeProfessionals = [
-  {
-    id: 0,
-    name: 'Sabrina Albuquerque'
-  },
-  {
-    id: 1,
-    name: 'Profissioanl 1'
-  }
-]
-
-export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
   return (
     <Fragment>
       <div className="flex flex-col gap-1">
@@ -74,7 +43,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
             return (
               <ListBox
                 value={value}
-                data={fakeTreatments}
+                data={treatments?.getAllTreatments || []}
                 label="Tipo de Tratamento"
                 onChange={onChange}
               />
@@ -89,9 +58,10 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
             return (
               <ListBox
                 value={value}
-                data={fakePackages}
+                data={packages?.getPackagesByTreatment || []}
                 label="Pacote"
                 onChange={onChange}
+                disabled={!selectedTreatment}
               />
             )
           }}
@@ -104,7 +74,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
             return (
               <ComboBox
                 value={value}
-                data={fakePatients}
+                data={allPatients?.searchPatients || []}
                 label="Paciente"
                 onChange={onChange}
               />
@@ -119,7 +89,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({ control }) => {
             return (
               <ComboBox
                 value={value}
-                data={fakeProfessionals}
+                data={allProfessionals?.getProfessionals || []}
                 label="Profissional"
                 onChange={onChange}
               />

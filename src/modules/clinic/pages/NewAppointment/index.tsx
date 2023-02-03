@@ -16,6 +16,7 @@ export type AppointmentData = {
       id: number
       name: string
       quantity: number
+      value: number
     }
     patient_id: number
     professional_id: number
@@ -23,6 +24,10 @@ export type AppointmentData = {
   }
   schedule: {
     initial_date: Date
+    apppointmend_days: Array<{
+      initial_date: Date
+      end_date: Date
+    }>
   }
   payment: {
     discount: number
@@ -31,11 +36,19 @@ export type AppointmentData = {
 }
 
 const NewAppointment = () => {
-  const { handleSubmit, control, watch } = useForm<AppointmentData>({})
+  const { handleSubmit, control, watch, setValue } = useForm<AppointmentData>({
+    defaultValues: {
+      // payment: {
+      //   discount: 0
+      // }
+    }
+  })
 
   const onSubmit = (data: AppointmentData) => {
     console.log(data)
   }
+
+  console.log('render')
 
   return (
     <PageContainer className="bg-primary-50 rounded-l-2xl">
@@ -62,15 +75,15 @@ const NewAppointment = () => {
         </div>
 
         <div className="bg-white p-4 h-fit w-full rounded-lg">
-          <AppointmentForm control={control} />
+          <AppointmentForm control={control} watch={watch} />
         </div>
 
         <div className="bg-white p-4 h-fit w-full rounded-lg">
-          <ScheduleForm control={control} watch={watch} />
+          <ScheduleForm control={control} watch={watch} setValue={setValue} />
         </div>
 
         <div className="bg-white p-4 h-fit w-full rounded-lg">
-          <PaymentForm control={control} />
+          <PaymentForm control={control} watch={watch} />
         </div>
       </div>
     </PageContainer>

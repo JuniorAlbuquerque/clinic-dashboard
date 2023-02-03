@@ -3,35 +3,46 @@ import { GroupDays } from '@/components/GroupDays'
 import { Input } from '@/components/Form/Input'
 import { Text } from '@/components/Text'
 import { FC, Fragment, useCallback, useState } from 'react'
-import { Control, Controller, UseFormWatch } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  UseFormSetValue,
+  UseFormWatch
+} from 'react-hook-form'
 import { AppointmentData } from '..'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { addDays, format, setHours, setMinutes } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
 import { addMinutes } from 'date-fns/esm'
 import { capitalizeFirstLetter } from '@/utils/autocapitalize'
 import { useDebouncedEffect } from '@/utils/hooks/useDebounceEffect'
+import ptBR from 'date-fns/locale/pt-BR'
 
 type ScheduleFormProps = {
   control: Control<AppointmentData>
   watch?: UseFormWatch<AppointmentData>
+  setValue?: UseFormSetValue<AppointmentData>
 }
 
 type WeekDays = {
   [key: string]: boolean
 }
 
-export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
+export const ScheduleForm: FC<ScheduleFormProps> = ({
+  control,
+  watch,
+  setValue
+}) => {
   const [bestHour, setBestHour] = useState('08:00')
   const [days, setDays] = useState<WeekDays>({})
-  const [appointmentDays, setAppointmentDays] = useState<
-    Array<{
-      initial_date: Date
-      end_date: Date
-    }>
-  >([])
+  // const [appointmentDays, setAppointmentDays] = useState<
+  //   Array<{
+  //     initial_date: Date
+  //     end_date: Date
+  //   }>
+  // >([])
   const packageQuantity = watch('appointment.package')
   const initial_date = watch('schedule.initial_date')
+  const appointmentDays = watch('schedule.apppointmend_days')
 
   const isAllowedDay = useCallback(
     (date: Date) => {
@@ -69,15 +80,16 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
         currentDate = addDays(currentDate, 1)
       }
 
-      setAppointmentDays(arrDate)
+      // setAppointmentDays(arrDate)
+      setValue('schedule.apppointmend_days', arrDate)
     },
-    [days, isAllowedDay]
+    [days, isAllowedDay, setValue]
   )
 
   useDebouncedEffect(
     () => {
-      if (Object.values(days).filter(Boolean).length === 0) {
-        setAppointmentDays([])
+      if (Object.values(days).filter(Boolean).length === 0 || !initial_date) {
+        setValue('schedule.apppointmend_days', [])
       }
 
       if (
@@ -146,7 +158,6 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
                 <div></div>
               </div>
 
-              {/* <div className="grid grid-cols-5 gap-y-3 border border-gray-300 p-3 rounded-2xl"> */}
               {appointmentDays?.map((date, index) => (
                 <div
                   key={index}
@@ -160,12 +171,12 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
                     )}
                   </div>
                   <div>
-                    {format(date.initial_date, 'hh:mm', {
+                    {format(date.initial_date, 'HH:mm', {
                       locale: ptBR
                     })}
                   </div>
                   <div>
-                    {format(date.end_date, 'hh:mm', {
+                    {format(date.end_date, 'HH:mm', {
                       locale: ptBR
                     })}
                   </div>
@@ -174,7 +185,6 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({ control, watch }) => {
                   </button>
                 </div>
               ))}
-              {/* </div> */}
             </Fragment>
           ) : (
             <Text renderAs="p" className="mt-2 text-sm text-slate-500">

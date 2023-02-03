@@ -67,3 +67,42 @@ export const ALL_APPOINTMENTS = gql`
     }
   }
 `
+
+export const ALL_TREATMENTS = gql`
+  query GetAllTreatments {
+    getAllTreatments {
+      id
+      name
+      value
+    }
+  }
+`
+
+export const ALL_PACKAGES_BY_TREATMENT = gql`
+  query GetPackagesByTreatment($treatmentId: Float!) {
+    getPackagesByTreatment(treatment_id: $treatmentId) {
+      id
+      name
+      quantity
+      value
+    }
+  }
+`
+
+export const ALL_PATIENTS = gql`
+  query SearchPatients {
+    searchPatients {
+      id
+      name
+    }
+  }
+`
+
+export const ALL_PROFESSIONALS = gql`
+  query GetProfessionals {
+    getProfessionals {
+      id
+      name
+    }
+  }
+`
