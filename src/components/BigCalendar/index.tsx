@@ -83,7 +83,9 @@ const CustomEventWeek = ({ event }: EventProps<CustomEventProps>) => {
 const CustomEventMonth = ({ event }: EventProps<CustomEventProps>) => {
   return (
     <span>
-      <p className="text-sm font-medium mt-1">{event.title}</p>
+      <p className="text-sm pr-1 font-medium mt-1 truncate">
+        {event.title} - {event.desc}
+      </p>
     </span>
   )
 }
