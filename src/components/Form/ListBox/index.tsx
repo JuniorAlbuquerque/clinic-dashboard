@@ -13,12 +13,19 @@ type ListBoxProps<T> = {
   data: ListBoxItem<T>[]
   label?: string
   value?: ListBoxItem<T>
+  disabled?: boolean
   onChange?(item?: ListBoxItem<T>): void
 }
 
-export function ListBox<T>({ data, label, value, onChange }: ListBoxProps<T>) {
+export function ListBox<T>({
+  data,
+  label,
+  value,
+  disabled,
+  onChange
+}: ListBoxProps<T>) {
   return (
-    <Listbox value={value ?? null} onChange={onChange}>
+    <Listbox value={value ?? null} onChange={onChange} disabled={disabled}>
       {({ open }) => (
         <div>
           {!!label && (
@@ -57,7 +64,7 @@ export function ListBox<T>({ data, label, value, onChange }: ListBoxProps<T>) {
                     key={item.id}
                     className={({ active }) =>
                       classNames(
-                        active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                        active ? 'text-white bg-primary-600' : 'text-gray-900',
                         'relative cursor-default select-none py-2 pl-3 pr-9'
                       )
                     }
@@ -77,7 +84,7 @@ export function ListBox<T>({ data, label, value, onChange }: ListBoxProps<T>) {
                         {selected ? (
                           <span
                             className={classNames(
-                              active ? 'text-white' : 'text-indigo-600',
+                              active ? 'text-white' : 'text-primary-600',
                               'absolute inset-y-0 right-0 flex items-center pr-4'
                             )}
                           >
