@@ -37,7 +37,7 @@ type Query {
   getAllAppointments: [AllAppointments!]!
   getPackagesByTreatment(treatment_id: Float!): [PackageByTreatment!]!
   getPatientCountList: PatientListCount
-  searchPatients(name: String!): [PatientSearch!]!
+  searchPatients: [PatientSearch!]!
   getPatientPackageCountList: PatientPackageCountList
   getAllTreatments: [AllTreatments!]
   getUserInfo(id: Float!): User
@@ -97,6 +97,7 @@ type PackageByTreatment {
   id: ID!
   name: String!
   quantity: Float!
+  value: Float!
 }
 
 type PatientListCount {
@@ -222,7 +223,7 @@ type Mutation {
   login(data: UserLoginData!): Auth!
   createPatient(data: PatientInputData!): Patient!
   createPatientPackage(data: PatientPackageInputData!): PatientPackageCreate!
-  createTreatment(packageCount: [Float!]!, data: TreatmentInputData!): TreatmentModel!
+  createTreatment(packages: [PackageTreatmentList!]!, data: TreatmentInputData!): TreatmentModel!
   signUp(data: UserInputData!): User!
 }
 
@@ -267,6 +268,7 @@ input AppointmentInputData {
   package_id: Float!
   patient_id: Float!
   professional_id: Float!
+  description: String!
 }
 
 input ScheduleInputData {
@@ -299,6 +301,11 @@ type TreatmentModel {
   active: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+input PackageTreatmentList {
+  quantity: Float!
+  value: Float!
 }
 
 input TreatmentInputData {
