@@ -266,6 +266,11 @@ input PatientInputData {
   name: String!
   telephone: String!
   birthdate: String!
+  address: String!
+  city: String!
+  cpf: String!
+  weight: Float!
+  height: Float!
   clinic_id: Float!
 }
 

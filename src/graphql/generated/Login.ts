@@ -11,9 +11,10 @@ import { UserLoginData } from "./globalTypes";
 
 export interface Login_login_user {
   __typename: "User";
-  email: string;
-  name: string;
   id: string;
+  name: string;
+  email: string;
+  clinic_id: string;
 }
 
 export interface Login_login {

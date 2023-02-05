@@ -7,11 +7,11 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 export const Input: FC<InputProps> = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, disabled, error, ...rest }, ref) => {
+  ({ label, disabled, error, className, ...rest }, ref) => {
     const currentId = useId()
 
     return (
-      <div>
+      <div className={className}>
         <label
           htmlFor={currentId}
           className="block text-sm font-medium text-gray-700"

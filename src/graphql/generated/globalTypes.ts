@@ -42,6 +42,19 @@ export interface PackageTreatmentList {
   value: number;
 }
 
+export interface PatientInputData {
+  email: string;
+  name: string;
+  telephone: string;
+  birthdate: string;
+  address: string;
+  city: string;
+  cpf: string;
+  weight: number;
+  height: number;
+  clinic_id: number;
+}
+
 export interface PatientPackageInputData {
   appointment: AppointmentInputData;
   schedule: ScheduleInputData;

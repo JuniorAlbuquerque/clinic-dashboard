@@ -1,10 +1,10 @@
 import BreadCrumb from '@/components/BreadCrumb'
 import Button from '@/components/Button/Button'
-import Modal from '@/components/Modal'
 import Table from '@/components/Table'
 import PageContainer from '@/styles/Layout/PageContainer'
 import { useState } from 'react'
 import { getRows } from '../../components/ClinicInfo/utils'
+import ModalNewPatient from '../../components/ModalNewPatient'
 import { useGetPatientCountList } from '../../hooks/patient/usePatientQueries'
 
 const Patient = () => {
@@ -56,16 +56,12 @@ const Patient = () => {
 
         <Table head={head} data={rows} />
 
-        <Modal
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          cancelText="asd"
-          onCancel={() => setOpenModal(false)}
-          confirmText="asd"
-          onSubmit={() => setOpenModal(false)}
-        >
-          Ola
-        </Modal>
+        {openModal && (
+          <ModalNewPatient
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+          />
+        )}
       </div>
     </PageContainer>
   )

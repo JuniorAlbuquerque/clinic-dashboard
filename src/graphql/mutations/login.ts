@@ -5,9 +5,10 @@ export const LOGIN = gql`
     login(data: $data) {
       token
       user {
-        email
-        name
         id
+        name
+        email
+        clinic_id
       }
     }
   }
