@@ -26,6 +26,7 @@
     "date-fns": "^2.29.3",
     "framer-motion": "^7.6.1",
     "graphql": "^15.3.0",
+    "mask-hooks": "^2.8.1",
     "react": "^18.2.0",
     "react-big-calendar": "^1.5.2",
     "react-currency-input-field": "^3.6.10",
