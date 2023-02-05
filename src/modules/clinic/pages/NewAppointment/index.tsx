@@ -36,7 +36,7 @@ const NewAppointment = () => {
         package_id: parseInt(data?.appointment?.package?.id?.toString()),
         patient_id: data?.appointment?.patient_id,
         professional_id: data?.appointment?.professional_id,
-        description: data?.appointment?.description,
+        description: data?.appointment?.description!,
         created_by: parseInt(user?.id)
       },
       schedule: {
@@ -47,7 +47,7 @@ const NewAppointment = () => {
         }))
       },
       payment: {
-        discount: data?.payment?.discount,
+        discount: data?.payment?.discount ? data?.payment?.discount : 0,
         payment_status: data?.payment?.payment_status?.id as PaymentStatus,
         payment_type: data?.payment?.payment_type?.id as PaymentType,
         payment_date: data?.payment?.payment_date,

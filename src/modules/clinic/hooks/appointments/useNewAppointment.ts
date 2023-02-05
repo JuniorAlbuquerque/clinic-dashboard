@@ -29,7 +29,8 @@ export function useNewAppointment() {
           toast(error?.message, {
             type: 'error'
           })
-        }
+        },
+        refetchQueries: ['GetAllAppointments', 'GetWeekAppointments']
       })
     },
     [mutationPatientPackage, navigate]

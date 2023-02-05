@@ -22,14 +22,16 @@ export function useNewTreatment() {
           toast('Tratamento cadastrado com sucesso', {
             type: 'success'
           })
-          onSuccess()
+          if (onSuccess) {
+            onSuccess()
+          }
         },
         onError: (error) => {
           toast(error?.message, {
             type: 'error'
           })
         },
-        refetchQueries: ['GetAllTreatmentsWithPackages']
+        refetchQueries: ['GetAllTreatments', 'GetAllTreatmentsWithPackages']
       })
     },
     [mutationTreatment]
