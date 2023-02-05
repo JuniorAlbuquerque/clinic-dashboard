@@ -7,22 +7,26 @@ import { useAllPatients } from '@/modules/clinic/hooks/patient/useAllPatients'
 import { useAllProfessionals } from '@/modules/clinic/hooks/professional/useAllProfessionals'
 import { useAllTreatments } from '@/modules/clinic/hooks/treatments/useAllTreatments'
 import { FC, Fragment } from 'react'
-import { Control, Controller, UseFormWatch } from 'react-hook-form'
+import { Control, Controller, FormState, UseFormWatch } from 'react-hook-form'
 import { AppointmentData } from '..'
 
 type AppointmentFormProps = {
   control: Control<AppointmentData>
+  errors?: FormState<AppointmentData>['errors']
   watch?: UseFormWatch<AppointmentData>
 }
 
 export const AppointmentForm: FC<AppointmentFormProps> = ({
   control,
+  errors,
   watch
 }) => {
   const selectedTreatment = watch('appointment.treatment')?.id
 
   const { data: treatments } = useAllTreatments()
-  const { data: packages } = useAllPackagesByTreatment(selectedTreatment)
+  const { data: packages } = useAllPackagesByTreatment(
+    parseInt(selectedTreatment?.toString())
+  )
   const { data: allPatients } = useAllPatients()
   const { data: allProfessionals } = useAllProfessionals()
 
@@ -46,6 +50,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({
                 data={treatments?.getAllTreatments || []}
                 label="Tipo de Tratamento"
                 onChange={onChange}
+                error={errors?.appointment?.treatment?.message}
               />
             )
           }}
@@ -62,6 +67,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({
                 label="Pacote"
                 onChange={onChange}
                 disabled={!selectedTreatment}
+                error={errors?.appointment?.package?.message}
               />
             )
           }}
@@ -77,6 +83,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({
                 data={allPatients?.searchPatients || []}
                 label="Paciente"
                 onChange={onChange}
+                error={errors?.appointment?.patient_id?.message}
               />
             )
           }}
@@ -92,6 +99,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({
                 data={allProfessionals?.getProfessionals || []}
                 label="Profissional"
                 onChange={onChange}
+                error={errors?.appointment?.professional_id?.message}
               />
             )
           }}

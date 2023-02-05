@@ -13,6 +13,59 @@ export enum AppointmentStatus {
   PENDING = "PENDING",
 }
 
+export enum PaymentStatus {
+  BLOCK = "BLOCK",
+  PAID = "PAID",
+  PENDING = "PENDING",
+}
+
+export enum PaymentType {
+  CREDIT_CARD = "CREDIT_CARD",
+  MONEY = "MONEY",
+}
+
+export interface AppointmentDays {
+  start_date: any;
+  end_date: any;
+}
+
+export interface AppointmentInputData {
+  package_id: number;
+  patient_id: number;
+  professional_id: number;
+  description: string;
+  created_by: number;
+}
+
+export interface PackageTreatmentList {
+  quantity: number;
+  value: number;
+}
+
+export interface PatientPackageInputData {
+  appointment: AppointmentInputData;
+  schedule: ScheduleInputData;
+  payment: PaymentInputData;
+}
+
+export interface PaymentInputData {
+  discount: number;
+  payment_type: PaymentType;
+  payment_schedule: boolean;
+  payment_date: any;
+  payment_status: PaymentStatus;
+}
+
+export interface ScheduleInputData {
+  initial_date: any;
+  appointment_days: AppointmentDays[];
+}
+
+export interface TreatmentInputData {
+  name: string;
+  value: number;
+}
+
 export interface UserLoginData {
   email: string;
   password: string;

@@ -8,6 +8,7 @@ type ModalProps = {
   confirmText?: string
   cancelText?: string
   children: ReactNode
+  busy?: boolean
   onClose: () => void
   onCancel?: () => void
   onSubmit?: () => void
@@ -17,6 +18,7 @@ export default function Modal({
   open,
   title,
   children,
+  busy,
   onClose,
   onSubmit
 }: ModalProps) {
@@ -46,11 +48,11 @@ export default function Modal({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm md:max-w-md sm:p-6">
                 <div className="text-lg font-semibold mb-4">
                   {!!title && title}
                 </div>
-                <div>{children}</div>
+                {children}
                 <div className="mt-5 sm:mt-6 flex gap-8 ml-auto items-center justify-end">
                   <p
                     className="text-sm text-primary-600 cursor-pointer"
@@ -58,7 +60,7 @@ export default function Modal({
                   >
                     Cancelar
                   </p>
-                  <Button onClick={() => onSubmit && onSubmit()}>
+                  <Button onClick={() => onSubmit && onSubmit()} busy={busy}>
                     Confirmar
                   </Button>
                 </div>

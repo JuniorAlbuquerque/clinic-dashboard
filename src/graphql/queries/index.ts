@@ -106,3 +106,32 @@ export const ALL_PROFESSIONALS = gql`
     }
   }
 `
+
+export const PROFESSIONAL_COUNT = gql`
+  query GetProfessionalCountList {
+    getProfessionalCountList {
+      count
+      professionalList {
+        id
+        name
+        email
+      }
+    }
+  }
+`
+
+export const TREATMENTS_AND_PACKAGES = gql`
+  query GetAllTreatmentsWithPackages {
+    getAllTreatmentsWithPackages {
+      id
+      name
+      value
+      Package {
+        id
+        name
+        quantity
+        value
+      }
+    }
+  }
+`

@@ -4,11 +4,13 @@ import { FC, TextareaHTMLAttributes, useId } from 'react'
 type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string
   rootClassName?: string
+  error?: string
 }
 
 export const TextArea: FC<TextAreaProps> = ({
   label,
   rootClassName,
+  error,
   ...rest
 }) => {
   const currentId = useId()
@@ -38,6 +40,8 @@ export const TextArea: FC<TextAreaProps> = ({
           {...rest}
         />
       </div>
+
+      {!!error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </div>
   )
 }

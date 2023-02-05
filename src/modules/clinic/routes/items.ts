@@ -1,3 +1,4 @@
+import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { HomeIcon, CalendarIcon, UserIcon } from '@heroicons/react/24/solid'
 
 const ClinicNavItems = [
@@ -12,6 +13,10 @@ const ClinicNavItems = [
   {
     icon: UserIcon,
     path: '/patient'
+  },
+  {
+    icon: Cog6ToothIcon,
+    path: '/settings'
   }
 ]
 

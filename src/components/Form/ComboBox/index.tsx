@@ -12,6 +12,7 @@ type ComboBoxProps = {
   data: ComboBoxItem[]
   label?: string
   value?: ComboBoxItem['id']
+  error?: string
   onChange?(id: number, item: ComboBoxItem): void
 }
 
@@ -19,6 +20,7 @@ export const ComboBox: FC<ComboBoxProps> = ({
   data,
   value,
   label,
+  error,
   onChange
 }) => {
   const [query, setQuery] = useState('')
@@ -111,6 +113,7 @@ export const ComboBox: FC<ComboBoxProps> = ({
           </Combobox.Options>
         )}
       </div>
+      {!!error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </Combobox>
   )
 }

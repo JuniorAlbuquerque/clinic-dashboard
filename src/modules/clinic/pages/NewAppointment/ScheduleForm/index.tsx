@@ -6,6 +6,7 @@ import { FC, Fragment, useCallback, useState } from 'react'
 import {
   Control,
   Controller,
+  FormState,
   UseFormSetValue,
   UseFormWatch
 } from 'react-hook-form'
@@ -19,6 +20,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 
 type ScheduleFormProps = {
   control: Control<AppointmentData>
+  errors?: FormState<AppointmentData>['errors']
   watch?: UseFormWatch<AppointmentData>
   setValue?: UseFormSetValue<AppointmentData>
 }
@@ -29,6 +31,7 @@ type WeekDays = {
 
 export const ScheduleForm: FC<ScheduleFormProps> = ({
   control,
+  errors,
   watch,
   setValue
 }) => {
@@ -124,6 +127,8 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
                 label="Date de início"
                 value={value}
                 onDateChange={onChange}
+                minDate={new Date()}
+                error={errors?.schedule?.initial_date?.message}
               />
             )
           }}

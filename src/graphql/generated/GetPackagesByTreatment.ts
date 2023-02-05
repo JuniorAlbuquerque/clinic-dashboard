@@ -8,8 +8,8 @@
 // ====================================================
 
 export interface GetPackagesByTreatment_getPackagesByTreatment {
-  __typename?: "PackageByTreatment";
-  id: number;
+  __typename: "PackageByTreatment";
+  id: string;
   name: string;
   quantity: number;
   value: number;

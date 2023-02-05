@@ -34,6 +34,7 @@ specifiers:
   prettier: ^2.7.1
   react: ^18.2.0
   react-big-calendar: ^1.5.2
+  react-currency-input-field: ^3.6.10
   react-date-picker: ^9.2.0
   react-dom: ^18.2.0
   react-hook-form: ^7.42.1
@@ -45,6 +46,7 @@ specifiers:
   vite: ^3.0.7
   vite-plugin-svgr: ^2.2.1
   vitest: ^0.21.1
+  zod: ^3.20.2
   zustand: ^4.1.2
 
 dependencies:
@@ -59,11 +61,13 @@ dependencies:
   graphql: 15.8.0
   react: 18.2.0
   react-big-calendar: 1.5.2_biqbaboplfbrettd7655fr4n2y
+  react-currency-input-field: 3.6.10_react@18.2.0
   react-date-picker: 9.2.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.42.1_react@18.2.0
   react-router-dom: 6.7.0_biqbaboplfbrettd7655fr4n2y
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
+  zod: 3.20.2
   zustand: 4.3.2_react@18.2.0
 
 devDependencies:
@@ -5184,6 +5188,14 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /react-currency-input-field/3.6.10_react@18.2.0:
+    resolution: {integrity: sha512-KRAJJaLujarBTLlEVbznsUxQ56+Qyqwoe5w9DnGxmsGnHv4ycQRpRkuuCDfF9BcXHmegzsOXesfIGpW7Cw9mTQ==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-date-picker/9.2.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-kAE7HFLq1ic4pS0Pk9SyPTjejIfjTyPov04a2eZzLxfZh8ss8EPaaaX7bBUP4RUCkbxHpR0P4UHloD0/fFDCZw==}
     peerDependencies:
@@ -6479,6 +6491,10 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+
+  /zod/3.20.2:
+    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+    dev: false
 
   /zustand/4.3.2_react@18.2.0:
     resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}

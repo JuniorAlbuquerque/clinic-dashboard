@@ -82,10 +82,12 @@ const Dashboard: FC = () => {
                             item?.patients_packages?.package?.treatment?.name
                           }
                           variant="blue"
-                          footerText={format(
+                          footerText={`
+                          ${format(
                             new Date(item?.start_date),
-                            'hh:mm'
-                          )}
+                            'HH:mm'
+                          )} às ${format(new Date(item?.end_date), 'HH:mm')}
+                          `}
                           active={item.id === data?.getWeekAppointments[0]?.id}
                         />
                       ))}

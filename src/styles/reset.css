@@ -203,3 +203,9 @@ a:active {
   border-radius: 8px;
   background: #c7c7c748 !important;
 }
+
+.react-calendar__tile:disabled {
+  background: #dfdfdf50;
+  border-radius: 8px;
+  color: #c7c7c7;
+}

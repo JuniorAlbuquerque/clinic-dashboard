@@ -1,16 +1,24 @@
+import { DatePicker } from '@/components/DatePicker'
 import { Input } from '@/components/Form/Input'
+import { ListBox } from '@/components/Form/ListBox'
 import { Text } from '@/components/Text'
 import { formatCurrency } from '@/utils/formats/currency'
-import { FC, Fragment, useEffect, useMemo, useState } from 'react'
-import { Control, Controller, UseFormWatch } from 'react-hook-form'
+import { FC, Fragment, useEffect, useState } from 'react'
+import { Control, Controller, FormState, UseFormWatch } from 'react-hook-form'
 import { AppointmentData } from '..'
+import { paymentList, paymentStatusList } from '../types'
 
 type PaymentFormProps = {
   control: Control<AppointmentData>
+  errors?: FormState<AppointmentData>['errors']
   watch: UseFormWatch<AppointmentData>
 }
 
-export const PaymentForm: FC<PaymentFormProps> = ({ control, watch }) => {
+export const PaymentForm: FC<PaymentFormProps> = ({
+  control,
+  errors,
+  watch
+}) => {
   const totalValue = watch('appointment.package')?.value
   const discount = watch('payment.discount')
   const [valueWithDiscount, setValueWithDiscount] = useState(0)
@@ -50,13 +58,12 @@ export const PaymentForm: FC<PaymentFormProps> = ({ control, watch }) => {
           render={({ field: { name, value, onChange } }) => {
             return (
               <Input
-                label="Desconto"
+                label="Desconto (%)"
                 type="number"
                 name={name}
-                value={value}
+                value={value || ''}
                 onChange={(event) => {
                   const discount = event.target.value
-
                   onChange(parseInt(discount))
                 }}
               />
@@ -68,20 +75,52 @@ export const PaymentForm: FC<PaymentFormProps> = ({ control, watch }) => {
           disabled
           value={formatCurrency(valueWithDiscount) || ''}
         />
-        {/* <Controller
-          name="appointment.treatment"
+
+        <Controller
+          name="payment.payment_status"
           control={control}
           render={({ field: { value, onChange } }) => {
             return (
               <ListBox
                 value={value}
-                data={fakeTreatments}
-                label="Tipo de Tratamento"
+                data={paymentStatusList || []}
+                label="Status do pagamento"
                 onChange={onChange}
+                error={errors?.payment?.payment_status?.message}
               />
             )
           }}
-        /> */}
+        />
+
+        <Controller
+          name="payment.payment_type"
+          control={control}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <ListBox
+                value={value}
+                data={paymentList || []}
+                label="Tipo de Pagamento"
+                onChange={onChange}
+                error={errors?.payment?.payment_type?.message}
+              />
+            )
+          }}
+        />
+
+        <Controller
+          name="payment.payment_date"
+          control={control}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <DatePicker
+                label="Date do pagamento"
+                value={value}
+                onDateChange={onChange}
+              />
+            )
+          }}
+        />
       </div>
     </Fragment>
   )

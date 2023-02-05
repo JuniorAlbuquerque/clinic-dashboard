@@ -40,6 +40,7 @@ type Query {
   searchPatients: [PatientSearch!]!
   getPatientPackageCountList: PatientPackageCountList
   getAllTreatments: [AllTreatments!]
+  getAllTreatmentsWithPackages: [AllTreatmentsAndPackages!]
   getUserInfo(id: Float!): User
   getProfessionalCountList: ProfessionalCountList
   getProfessionals: [GetProfessionals!]!
@@ -178,6 +179,20 @@ type AllTreatments {
   value: Float!
 }
 
+type AllTreatmentsAndPackages {
+  id: ID!
+  name: String!
+  value: Float!
+  Package: [PackageAppointment!]!
+}
+
+type PackageAppointment {
+  id: ID!
+  name: String!
+  quantity: Float!
+  value: Float!
+}
+
 type User {
   id: ID!
   email: String!
@@ -269,6 +284,7 @@ input AppointmentInputData {
   patient_id: Float!
   professional_id: Float!
   description: String!
+  created_by: Float!
 }
 
 input ScheduleInputData {

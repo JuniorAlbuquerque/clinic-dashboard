@@ -5,7 +5,7 @@ import { classNames } from '@/utils/mergeClassName'
 import { clsx } from 'clsx'
 
 type ListBoxItem<T> = T & {
-  id: number
+  id: number | string
   name: string
 }
 
@@ -14,6 +14,7 @@ type ListBoxProps<T> = {
   label?: string
   value?: ListBoxItem<T>
   disabled?: boolean
+  error?: string
   onChange?(item?: ListBoxItem<T>): void
 }
 
@@ -22,6 +23,7 @@ export function ListBox<T>({
   label,
   value,
   disabled,
+  error,
   onChange
 }: ListBoxProps<T>) {
   return (
@@ -97,6 +99,8 @@ export function ListBox<T>({
                 ))}
               </Listbox.Options>
             </Transition>
+
+            {!!error && <p className="mt-2 text-xs text-red-600">{error}</p>}
           </div>
         </div>
       )}

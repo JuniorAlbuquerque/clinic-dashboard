@@ -1,18 +1,24 @@
 import { CalendarIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { FC } from 'react'
-import { default as ReactDatePicker } from 'react-date-picker'
+import {
+  default as ReactDatePicker,
+  DatePickerProps as ReactDatePickerProps
+} from 'react-date-picker'
 import { Text } from '../Text'
 
-type DatePickerProps = {
+type DatePickerProps = ReactDatePickerProps & {
   label?: string
   value?: Date
+  error?: string
   onDateChange?(date: Date): void
 }
 
 export const DatePicker: FC<DatePickerProps> = ({
   label,
   value,
-  onDateChange
+  error,
+  onDateChange,
+  ...rest
 }) => {
   const handleChangeDate = (newDate: Date) => {
     if (onDateChange) {
@@ -48,7 +54,10 @@ export const DatePicker: FC<DatePickerProps> = ({
             <CalendarIcon width={16} className="text-slate-600" />
           </div>
         }
+        {...rest}
       />
+
+      {!!error && <p className="mt-2 text-xs text-red-600">{error}</p>}
     </div>
   )
 }
