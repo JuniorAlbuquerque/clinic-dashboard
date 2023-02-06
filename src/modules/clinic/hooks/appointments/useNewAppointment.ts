@@ -1,6 +1,8 @@
 import { CreatePatientPackage } from '@/graphql/generated/CreatePatientPackage'
 import { PatientPackageInputData } from '@/graphql/generated/globalTypes'
 import { NEW_APPOINTMENT } from '@/graphql/mutations/newappointment'
+import { WEEK_APPOINTMENTS } from '@/graphql/queries'
+import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { useMutation } from '@apollo/client'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +13,7 @@ export function useNewAppointment() {
     useMutation<CreatePatientPackage>(NEW_APPOINTMENT)
 
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   const createPatientPacakge = useCallback(
     async (data: PatientPackageInputData) => {
@@ -30,10 +33,21 @@ export function useNewAppointment() {
             type: 'error'
           })
         },
-        refetchQueries: ['GetAllAppointments', 'GetWeekAppointments']
+        refetchQueries: [
+          'GetAllAppointments',
+          {
+            query: WEEK_APPOINTMENTS,
+            variables: {
+              userId: parseInt(user?.id),
+              initialDate: new Date(),
+              endDate: new Date()
+            }
+          }
+        ],
+        awaitRefetchQueries: true
       })
     },
-    [mutationPatientPackage, navigate]
+    [mutationPatientPackage, navigate, user?.id]
   )
 
   return {
