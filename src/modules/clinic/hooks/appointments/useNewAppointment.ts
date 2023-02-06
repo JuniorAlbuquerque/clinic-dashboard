@@ -1,7 +1,7 @@
 import { CreatePatientPackage } from '@/graphql/generated/CreatePatientPackage'
 import { PatientPackageInputData } from '@/graphql/generated/globalTypes'
 import { NEW_APPOINTMENT } from '@/graphql/mutations/newappointment'
-import { WEEK_APPOINTMENTS } from '@/graphql/queries'
+import { ALL_APPOINTMENTS, WEEK_APPOINTMENTS } from '@/graphql/queries'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { useMutation } from '@apollo/client'
 import { useCallback } from 'react'
@@ -34,7 +34,9 @@ export function useNewAppointment() {
           })
         },
         refetchQueries: [
-          'GetAllAppointments',
+          {
+            query: ALL_APPOINTMENTS
+          },
           {
             query: WEEK_APPOINTMENTS,
             variables: {
