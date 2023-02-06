@@ -20,7 +20,7 @@ const Button: FC<ButtonProps> = ({ children, className, busy, ...rest }) => {
       {busy && (
         <svg
           aria-hidden="true"
-          className="mr-3 -ml-4 w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-primary-200"
+          className="mr-3 -ml-2 w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-primary-200"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
