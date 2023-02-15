@@ -1,14 +1,23 @@
 import { GetAllTreatmentsWithPackages } from '@/graphql/generated/GetAllTreatmentsWithPackages'
 import { TREATMENTS_AND_PACKAGES } from '@/graphql/queries'
-import { useQuery } from '@apollo/client'
+import graphQLClient from '@/services/graphql'
+import { useQuery } from '@tanstack/react-query'
 
 export function useTreatmentPackages() {
-  const { loading, data } = useQuery<GetAllTreatmentsWithPackages>(
-    TREATMENTS_AND_PACKAGES
+  const { data, isLoading } = useQuery(
+    ['get-all-treatments-packages'],
+    async () => {
+      const response =
+        await graphQLClient.request<GetAllTreatmentsWithPackages>(
+          TREATMENTS_AND_PACKAGES
+        )
+
+      return response
+    }
   )
 
   return {
-    loading,
-    data
+    data,
+    loading: isLoading
   }
 }

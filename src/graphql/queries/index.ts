@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from 'graphql-request'
 
 export const WEEK_APPOINTMENTS = gql`
   query GetWeekAppointments(
@@ -55,15 +55,19 @@ export const PATIENT_LIST_COUNT = gql`
 `
 
 export const ALL_APPOINTMENTS = gql`
-  query GetAllAppointments {
-    getAllAppointments {
-      id
-      start_date
-      end_date
-      professional
-      patient
-      presence
-      treatment
+  query GetAllAppointments($itemsPerPage: Float, $page: Float) {
+    getAllAppointments(items_per_page: $itemsPerPage, page: $page) {
+      allAppointments {
+        id
+        start_date
+        end_date
+        professional
+        patient
+        presence
+        treatment
+        observations
+      }
+      count
     }
   }
 `

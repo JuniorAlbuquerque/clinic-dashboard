@@ -5,6 +5,7 @@ import { useAllAppointments } from '../../hooks/appointments/useAllAppointments'
 import { useGetPatientCountList } from '../../hooks/patient/usePatientQueries'
 import { useGetProfessionalCountList } from '../../hooks/professional/useCountProfessional'
 import { getAppoitmentRows, getRows } from './utils'
+import ReactPaginate from 'react-paginate'
 
 const head = [
   {
@@ -63,11 +64,14 @@ const headAppointments = [
   }
 ]
 
+const itemsPerPage = 5
+
 const ClinicInfo = () => {
   const [selectedCard, setSelectedCard] = useState<VariantType>('patient')
+  const [page, setPage] = useState(0)
 
   const { data: patientCountList } = useGetPatientCountList()
-  const { data: appointments } = useAllAppointments()
+  const { data: appointments } = useAllAppointments(page, itemsPerPage)
   const { data: professionals } = useGetProfessionalCountList()
 
   const rows = getRows({
@@ -75,7 +79,7 @@ const ClinicInfo = () => {
   })
 
   const appointmentRows = getAppoitmentRows({
-    data: appointments?.getAllAppointments
+    data: appointments?.getAllAppointments?.allAppointments
   })
 
   const currentTable = {
@@ -87,6 +91,14 @@ const ClinicInfo = () => {
         data={professionals?.getProfessionalCountList.professionalList}
       />
     )
+  }
+
+  const pageCount = Math.ceil(
+    appointments?.getAllAppointments?.count / itemsPerPage
+  )
+
+  const handlePageClick = (event: { selected: number }) => {
+    setPage(event.selected)
   }
 
   return (
@@ -106,7 +118,7 @@ const ClinicInfo = () => {
           onSelect={(type) => {
             setSelectedCard(type)
           }}
-          count={appointments?.getAllAppointments?.length || 0}
+          count={appointments?.getAllAppointments?.count}
         />
         <CardInfo
           variant="professional"
@@ -118,8 +130,33 @@ const ClinicInfo = () => {
         />
       </div>
 
-      <div>
-        <div className="mt-8 flex flex-col">{currentTable[selectedCard!]}</div>
+      <div className="mt-8">
+        {currentTable[selectedCard!]}
+
+        {selectedCard === 'appointment' &&
+          appointments?.getAllAppointments?.count > 10 && (
+            <div className="flex mt-4 justify-end">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel=">"
+                forcePage={page}
+                nextLinkClassName="no-underline text-primary-500"
+                onPageChange={(event) => handlePageClick(event)}
+                pageRangeDisplayed={2}
+                pageCount={pageCount}
+                previousLabel="<"
+                previousLinkClassName="no-underline text-primary-500"
+                renderOnZeroPageCount={null}
+                className="flex no-underline items-center gap-2 p-2 decoration-transparent"
+                activeClassName="bg-primary-500"
+                containerClassName="bg-primary-700"
+                breakLinkClassName="no-underline text-primary-500"
+                pageLinkClassName="no-underline text-primary-500 w-10 p-2 flex items-center justify-center"
+                activeLinkClassName="text-white"
+                pageClassName=" bg-white rounded-md border border-primary-100 "
+              />
+            </div>
+          )}
       </div>
     </div>
   )

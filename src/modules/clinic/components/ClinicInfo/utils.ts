@@ -9,7 +9,7 @@ type GetRowsProps = {
 }
 
 type GetAppointmentRowsProps = {
-  data: GetAllAppointments_getAllAppointments[]
+  data: GetAllAppointments_getAllAppointments['allAppointments']
 }
 
 export const getRows = ({ data }: GetRowsProps): Record<string, unknown>[] => {

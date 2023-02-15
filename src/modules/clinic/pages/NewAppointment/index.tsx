@@ -7,7 +7,6 @@ import { PaymentForm } from './PaymentForm'
 import { ScheduleForm } from './ScheduleForm'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { useEffect } from 'react'
 import { AppointmentSchema } from './schema'
 import { useNewAppointment } from '../../hooks/appointments/useNewAppointment'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
@@ -28,10 +27,10 @@ const NewAppointment = () => {
 
   const { user } = useAuth()
 
-  const { createPatientPacakge, loading } = useNewAppointment()
+  const { createPatientPacakge } = useNewAppointment()
 
   const onSubmit = (data: AppointmentData) => {
-    createPatientPacakge({
+    createPatientPacakge.mutate({
       appointment: {
         package_id: parseInt(data?.appointment?.package?.id?.toString()),
         patient_id: data?.appointment?.patient_id,
@@ -54,12 +53,7 @@ const NewAppointment = () => {
         payment_schedule: false
       }
     })
-    console.log(data)
   }
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <PageContainer className="bg-primary-50 rounded-l-2xl">
@@ -81,7 +75,7 @@ const NewAppointment = () => {
           />
 
           <Button
-            busy={loading}
+            busy={createPatientPacakge?.isLoading}
             className="px-10"
             onClick={handleSubmit(onSubmit)}
           >

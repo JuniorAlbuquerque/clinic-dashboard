@@ -1,12 +1,19 @@
 import { GetProfessionals } from '@/graphql/generated/GetProfessionals'
 import { ALL_PROFESSIONALS } from '@/graphql/queries'
-import { useQuery } from '@apollo/client'
+import graphQLClient from '@/services/graphql'
+import { useQuery } from '@tanstack/react-query'
 
 export function useAllProfessionals() {
-  const { loading, data } = useQuery<GetProfessionals>(ALL_PROFESSIONALS)
+  const { data, isLoading } = useQuery(['get-professionals'], async () => {
+    const response = await graphQLClient.request<GetProfessionals>(
+      ALL_PROFESSIONALS
+    )
+
+    return response
+  })
 
   return {
-    loading,
-    data
+    data,
+    loading: isLoading
   }
 }

@@ -3,40 +3,34 @@ import {
   CreatePatientVariables
 } from '@/graphql/generated/CreatePatient'
 import { NEW_PATIENT } from '@/graphql/mutations/patient'
-import { useMutation } from '@apollo/client'
-import { useCallback } from 'react'
+import graphQLClient from '@/services/graphql'
+import { queryClient } from '@/services/queryClient'
+import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 export function useNewPatient() {
-  const [mutationPatient, { loading }] = useMutation<CreatePatient>(NEW_PATIENT)
-
-  const createPatient = useCallback(
-    async (data: CreatePatientVariables, onSuccess?: () => void) => {
-      await mutationPatient({
-        variables: {
-          ...data
-        },
-        onCompleted: () => {
-          toast('Paciente cadastrado com sucesso', {
-            type: 'success'
-          })
-          if (onSuccess) {
-            onSuccess()
-          }
-        },
-        onError: (error) => {
-          toast(error?.message, {
-            type: 'error'
-          })
-        },
-        refetchQueries: ['GetPatientCountList']
+  const createPatient = useMutation({
+    mutationFn: async (data: CreatePatientVariables) => {
+      const response = await graphQLClient.request<
+        CreatePatient,
+        CreatePatientVariables
+      >(NEW_PATIENT, {
+        ...data
       })
+
+      return response
     },
-    [mutationPatient]
-  )
+    onSuccess() {
+      toast('Paciente cadastrado com sucesso', {
+        type: 'success'
+      })
+
+      queryClient.invalidateQueries(['patient-count-list'])
+      queryClient.invalidateQueries(['search-patients'])
+    }
+  })
 
   return {
-    createPatient,
-    loading
+    createPatient
   }
 }

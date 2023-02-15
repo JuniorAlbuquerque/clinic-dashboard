@@ -4,7 +4,7 @@ import { Input } from '@/components/Form/Input'
 import Modal from '@/components/Modal'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { TreatmentSchema } from '../../pages/Settings/schema'
 import * as z from 'zod'
@@ -42,10 +42,10 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
     name: 'packages'
   })
 
-  const { newTreatment, loading } = useNewTreatment()
+  const { newTreatment } = useNewTreatment()
 
   const onSubmit = (data: TreatmentCreate) => {
-    newTreatment(
+    newTreatment.mutate(
       {
         data: {
           name: data.name,
@@ -56,8 +56,10 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
           value: parseFloat(item?.value?.toString())
         }))
       },
-      () => {
-        onClose()
+      {
+        onSuccess() {
+          onClose()
+        }
       }
     )
   }
@@ -68,7 +70,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
       onClose={onClose}
       title="Adicionar novo tratamento"
       onSubmit={handleSubmit(onSubmit)}
-      busy={loading}
+      busy={newTreatment.isLoading}
     >
       <form className="grid grid-cols-2 gap-2">
         <Controller

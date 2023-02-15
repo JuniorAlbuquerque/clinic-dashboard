@@ -1,35 +1,30 @@
 import { Login, LoginVariables } from '@/graphql/generated/Login'
 import { LOGIN } from '@/graphql/mutations/login'
-import { useMutation } from '@apollo/client'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 import { useUserStore } from '../../store/User'
+import { useMutation } from '@tanstack/react-query'
+import graphQLClient from '@/services/graphql'
 
 export function useLogin() {
-  const [mutationLogin, { data, loading }] = useMutation<Login>(LOGIN)
   const updateUser = useUserStore((state) => state.updateUser)
   const updateToken = useUserStore((state) => state.updateToken)
 
-  const login = useCallback(
-    async (userData: LoginVariables, onSuccess?: () => void) => {
-      await mutationLogin({
-        variables: {
-          data: userData.data
-        },
-        onCompleted: (response) => {
-          updateUser(response?.login?.user)
-          updateToken(response?.login?.token)
-          onSuccess()
-        },
-        onError: (error) => {
-          toast(error?.message, {
-            type: 'error'
-          })
+  const mutationLogin = useMutation({
+    mutationFn: async (data: LoginVariables) => {
+      const response = await graphQLClient.request<Login, LoginVariables>(
+        LOGIN,
+        {
+          ...data
         }
-      })
+      )
+
+      return response
     },
-    [mutationLogin, updateToken, updateUser]
-  )
+    onSuccess(response) {
+      updateUser(response?.login?.user)
+      updateToken(response?.login?.token)
+    }
+  })
 
   const signOut = useCallback(() => {
     updateUser(null)
@@ -37,9 +32,7 @@ export function useLogin() {
   }, [updateToken, updateUser])
 
   return {
-    login,
-    signOut,
-    data,
-    loading
+    mutationLogin,
+    signOut
   }
 }

@@ -27,10 +27,10 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
   })
 
   const { user } = useAuth()
-  const { createPatient, loading } = useNewPatient()
+  const { createPatient } = useNewPatient()
 
   const onSubmit = (data: NewPatient) => {
-    createPatient(
+    createPatient.mutate(
       {
         data: {
           weight: data?.weight ? parseFloat(data?.weight) : 0,
@@ -45,9 +45,11 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
           clinic_id: parseInt(user?.clinic_id)
         }
       },
-      () => {
-        onClose()
-        reset()
+      {
+        onSuccess() {
+          onClose()
+          reset()
+        }
       }
     )
   }
@@ -61,7 +63,7 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
       }}
       title="Novo paciente"
       onSubmit={handleSubmit(onSubmit)}
-      busy={loading}
+      busy={createPatient?.isLoading}
     >
       <form className="grid grid-cols-2 gap-3">
         <Controller

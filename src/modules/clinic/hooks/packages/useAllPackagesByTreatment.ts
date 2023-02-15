@@ -1,20 +1,31 @@
-import { GetPackagesByTreatment } from '@/graphql/generated/GetPackagesByTreatment'
+import {
+  GetPackagesByTreatment,
+  GetPackagesByTreatmentVariables
+} from '@/graphql/generated/GetPackagesByTreatment'
 import { ALL_PACKAGES_BY_TREATMENT } from '@/graphql/queries'
-import { useQuery } from '@apollo/client'
+import graphQLClient from '@/services/graphql'
+import { useQuery } from '@tanstack/react-query'
 
 export function useAllPackagesByTreatment(treatmentId: number) {
-  const { loading, data } = useQuery<GetPackagesByTreatment>(
-    ALL_PACKAGES_BY_TREATMENT,
-    {
-      variables: {
+  const { data, isLoading } = useQuery(
+    ['packages-by-treatment', treatmentId],
+    async () => {
+      const response = await graphQLClient.request<
+        GetPackagesByTreatment,
+        GetPackagesByTreatmentVariables
+      >(ALL_PACKAGES_BY_TREATMENT, {
         treatmentId: parseInt(treatmentId?.toString())
-      },
-      skip: !treatmentId
+      })
+
+      return response
+    },
+    {
+      enabled: !!treatmentId
     }
   )
 
   return {
-    loading,
-    data
+    data,
+    loading: isLoading
   }
 }

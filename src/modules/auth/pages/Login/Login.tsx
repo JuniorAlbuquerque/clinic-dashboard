@@ -18,7 +18,7 @@ const Login: FC = () => {
   const [userData, setUserData] = useState<UserCredentials>(
     {} as UserCredentials
   )
-  const { login, loading } = useLogin()
+  const { mutationLogin } = useLogin()
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -27,15 +27,17 @@ const Login: FC = () => {
       return
     }
 
-    await login(
+    mutationLogin.mutate(
       {
         data: {
           email: userData?.email,
           password: userData?.password
         }
       },
-      () => {
-        navigate('/')
+      {
+        onSuccess() {
+          navigate('/')
+        }
       }
     )
   }
@@ -84,7 +86,11 @@ const Login: FC = () => {
               }
             />
 
-            <Button className="mt-4" type="submit" busy={loading}>
+            <Button
+              className="mt-4"
+              type="submit"
+              busy={mutationLogin.isLoading}
+            >
               Entrar
             </Button>
           </form>
