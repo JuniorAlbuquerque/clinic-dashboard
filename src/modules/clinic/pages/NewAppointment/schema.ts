@@ -28,7 +28,10 @@ export const AppointmentSchema = z.object({
     professional_id: z.number({
       required_error: 'Campo obrigatório'
     }),
-    description: z.optional(z.string())
+    description: z.string({
+      required_error: 'Camppo obrigatório',
+      invalid_type_error: 'Campo obrigatório'
+    })
   }),
   schedule: z.object({
     initial_date: z.date({
