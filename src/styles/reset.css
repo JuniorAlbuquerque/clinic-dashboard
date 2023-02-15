@@ -209,3 +209,7 @@ a:active {
   border-radius: 8px;
   color: #c7c7c7;
 }
+
+.react-datetime-picker__wrapper {
+  border: none;
+}
