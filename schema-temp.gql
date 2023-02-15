@@ -34,7 +34,7 @@ directive @connection(
 
 type Query {
   getWeekAppointments(end_date: String!, initial_date: String!, user_id: Float!): [AppointmentModel!]
-  getAllAppointments: [AllAppointments!]!
+  getAllAppointments(items_per_page: Float, page: Float): AllAppointments!
   getPackagesByTreatment(treatment_id: Float!): [PackageByTreatment!]!
   getPatientCountList: PatientListCount
   searchPatients: [PatientSearch!]!
@@ -79,12 +79,18 @@ type PatientModel {
 }
 
 type AllAppointments {
+  allAppointments: [AppointmentsData!]!
+  count: Float!
+}
+
+type AppointmentsData {
   id: Float!
   start_date: DateTime!
   end_date: DateTime!
   professional: String!
   patient: String!
   treatment: String!
+  observations: String
   presence: AppointmentStatus!
 }
 
@@ -235,11 +241,26 @@ type ProfessionalSchedule {
 }
 
 type Mutation {
+  updateAppointment(data: AppointmentUpdateData!): AppointmentResponse!
   login(data: UserLoginData!): Auth!
   createPatient(data: PatientInputData!): Patient!
+  updatePatient(data: PatientUpdateInputData!): PatientReponse!
   createPatientPackage(data: PatientPackageInputData!): PatientPackageCreate!
   createTreatment(packages: [PackageTreatmentList!]!, data: TreatmentInputData!): TreatmentModel!
+  updateTreatment(data: TreatmentUpdate!): TreatmentUpdated!
   signUp(data: UserInputData!): User!
+}
+
+type AppointmentResponse {
+  message: String!
+}
+
+input AppointmentUpdateData {
+  id: Float!
+  start_date: DateTime!
+  end_date: DateTime!
+  observations: String!
+  presence: AppointmentStatus!
 }
 
 type Auth {
@@ -272,6 +293,24 @@ input PatientInputData {
   weight: Float!
   height: Float!
   clinic_id: Float!
+}
+
+type PatientReponse {
+  message: String!
+}
+
+input PatientUpdateInputData {
+  email: String!
+  name: String!
+  telephone: String!
+  birthdate: String!
+  address: String!
+  city: String!
+  cpf: String!
+  weight: Float!
+  height: Float!
+  clinic_id: Float!
+  id: Float!
 }
 
 type PatientPackageCreate {
@@ -332,6 +371,27 @@ input PackageTreatmentList {
 input TreatmentInputData {
   name: String!
   value: Float!
+}
+
+type TreatmentUpdated {
+  message: String!
+}
+
+input TreatmentUpdate {
+  treatment: TreatmentUpdateData!
+  packages: [TreatmentUpdatePackageData!]!
+}
+
+input TreatmentUpdateData {
+  id: Float!
+  name: String!
+  value: Float!
+}
+
+input TreatmentUpdatePackageData {
+  id: Float
+  value: Float!
+  quantity: Float!
 }
 
 input UserInputData {

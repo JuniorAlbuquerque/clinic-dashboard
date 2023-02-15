@@ -37,6 +37,14 @@ export interface AppointmentInputData {
   created_by: number;
 }
 
+export interface AppointmentUpdateData {
+  id: number;
+  start_date: any;
+  end_date: any;
+  observations: string;
+  presence: AppointmentStatus;
+}
+
 export interface PackageTreatmentList {
   quantity: number;
   value: number;
