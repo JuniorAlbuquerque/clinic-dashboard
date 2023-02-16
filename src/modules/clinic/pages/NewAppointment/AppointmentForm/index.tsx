@@ -117,6 +117,7 @@ export const AppointmentForm: FC<AppointmentFormProps> = ({
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
+                error={errors?.appointment?.description?.message}
               />
             )
           }}

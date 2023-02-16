@@ -7,10 +7,11 @@ type Days = {
 }
 
 type GroupDaysProps = {
+  limitDays?: number
   onChangeDays?(days: Days): void
 }
 
-export const GroupDays: FC<GroupDaysProps> = ({ onChangeDays }) => {
+export const GroupDays: FC<GroupDaysProps> = ({ limitDays, onChangeDays }) => {
   const [selectedDays, setSelectedDays] = useState<Days>({
     seg: false,
     ter: false,
@@ -22,6 +23,14 @@ export const GroupDays: FC<GroupDaysProps> = ({ onChangeDays }) => {
 
   const handleSelectDay = (day: string) => {
     const currentDays = { ...selectedDays }
+
+    if (
+      limitDays &&
+      Object.values(currentDays).filter(Boolean).length === limitDays &&
+      !currentDays[day]
+    ) {
+      return
+    }
 
     currentDays[day] = !currentDays[day]
 

@@ -104,7 +104,7 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
           render={({ field: { value, onChange } }) => {
             return (
               <ListBox
-                label="Status"
+                label="Status do Atendimento"
                 value={value}
                 data={[
                   {

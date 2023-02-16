@@ -17,6 +17,7 @@ import { addMinutes } from 'date-fns/esm'
 import { capitalizeFirstLetter } from '@/utils/autocapitalize'
 import { useDebouncedEffect } from '@/utils/hooks/useDebounceEffect'
 import ptBR from 'date-fns/locale/pt-BR'
+import { ListBox } from '@/components/Form/ListBox'
 
 type ScheduleFormProps = {
   control: Control<AppointmentData>
@@ -29,6 +30,17 @@ type WeekDays = {
   [key: string]: boolean
 }
 
+const data = [
+  {
+    id: 0,
+    name: 'Não'
+  },
+  {
+    id: 1,
+    name: 'Sim'
+  }
+]
+
 export const ScheduleForm: FC<ScheduleFormProps> = ({
   control,
   errors,
@@ -37,12 +49,10 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
 }) => {
   const [bestHour, setBestHour] = useState('08:00')
   const [days, setDays] = useState<WeekDays>({})
-  // const [appointmentDays, setAppointmentDays] = useState<
-  //   Array<{
-  //     initial_date: Date
-  //     end_date: Date
-  //   }>
-  // >([])
+  const [completeddMonth, setCompletedMonth] = useState({
+    id: 0,
+    name: 'Não'
+  })
   const packageQuantity = watch('appointment.package')
   const initial_date = watch('schedule.initial_date')
   const appointmentDays = watch('schedule.apppointmend_days')
@@ -100,11 +110,15 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
         initial_date &&
         Object.values(days).filter(Boolean).length > 0
       ) {
-        generateDays(initial_date, packageQuantity?.quantity, bestHour)
+        if (completeddMonth?.id === 1) {
+          generateDays(initial_date, packageQuantity?.quantity * 4, bestHour)
+        } else {
+          generateDays(initial_date, packageQuantity?.quantity, bestHour)
+        }
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [packageQuantity, bestHour, initial_date, days],
+    [packageQuantity, bestHour, initial_date, days, completeddMonth],
     300
   )
 
@@ -127,7 +141,6 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
                 label="Date de início"
                 value={value}
                 onDateChange={onChange}
-                minDate={new Date()}
                 error={errors?.schedule?.initial_date?.message}
               />
             )
@@ -142,12 +155,30 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
         />
 
         <GroupDays
+          limitDays={watch('appointment.package')?.quantity || null}
           onChangeDays={(days) => {
             setDays(days)
           }}
         />
 
-        <div />
+        <Controller
+          name="schedule.completed_month"
+          control={control}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <ListBox
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                value={value as unknown as any}
+                data={data || []}
+                label="Mês inteiro"
+                onChange={(item) => {
+                  setCompletedMonth(item)
+                  onChange(item)
+                }}
+              />
+            )
+          }}
+        />
 
         <div className="w-full mt-2 md:col-span-2 lg:col-span-1">
           <label className="block text-sm font-medium text-gray-700">

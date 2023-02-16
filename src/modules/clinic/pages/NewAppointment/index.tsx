@@ -11,6 +11,7 @@ import { AppointmentSchema } from './schema'
 import { useNewAppointment } from '../../hooks/appointments/useNewAppointment'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { PaymentStatus, PaymentType } from '@/graphql/generated/globalTypes'
+import { useEffect } from 'react'
 
 export type AppointmentData = z.infer<typeof AppointmentSchema>
 
@@ -22,7 +23,15 @@ const NewAppointment = () => {
     setValue,
     formState: { errors }
   } = useForm<AppointmentData>({
-    resolver: zodResolver(AppointmentSchema)
+    resolver: zodResolver(AppointmentSchema),
+    defaultValues: {
+      schedule: {
+        completed_month: {
+          id: 0,
+          name: 'Não'
+        }
+      }
+    }
   })
 
   const { user } = useAuth()
@@ -54,6 +63,10 @@ const NewAppointment = () => {
       }
     })
   }
+
+  useEffect(() => {
+    console.log(errors)
+  }, [errors])
 
   return (
     <PageContainer className="bg-primary-50 rounded-l-2xl">

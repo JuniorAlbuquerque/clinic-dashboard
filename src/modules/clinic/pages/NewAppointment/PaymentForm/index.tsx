@@ -21,6 +21,8 @@ export const PaymentForm: FC<PaymentFormProps> = ({
 }) => {
   const totalValue = watch('appointment.package')?.value
   const discount = watch('payment.discount')
+  const isCompletedMonth = watch('schedule.completed_month')?.id === 1
+
   const [valueWithDiscount, setValueWithDiscount] = useState(0)
 
   useEffect(() => {
@@ -49,7 +51,11 @@ export const PaymentForm: FC<PaymentFormProps> = ({
         <Input
           label="Valor total (sem desconto)"
           disabled
-          value={totalValue ? formatCurrency(totalValue) : formatCurrency(0)}
+          value={
+            totalValue
+              ? formatCurrency(isCompletedMonth ? totalValue * 4 : totalValue)
+              : formatCurrency(0)
+          }
         />
 
         <Controller
@@ -73,7 +79,11 @@ export const PaymentForm: FC<PaymentFormProps> = ({
         <Input
           label="Valor total (com desconto)"
           disabled
-          value={formatCurrency(valueWithDiscount) || ''}
+          value={
+            formatCurrency(
+              isCompletedMonth ? valueWithDiscount * 4 : valueWithDiscount
+            ) || ''
+          }
         />
 
         <Controller

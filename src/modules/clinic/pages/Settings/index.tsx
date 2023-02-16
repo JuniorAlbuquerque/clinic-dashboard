@@ -30,14 +30,6 @@ const Settings: FC = () => {
               }
             ]}
           />
-
-          <Button
-            // busy={loading}
-            className="px-10"
-            // onClick={handleSubmit(onSubmit)}
-          >
-            Salvar
-          </Button>
         </div>
 
         {/* TODO - EDICAO DE INFORMACOES DA CLINICA */}

@@ -46,6 +46,15 @@ export const AppointmentSchema = z.object({
       {
         required_error: 'Camppo obrigatório'
       }
+    ),
+    completed_month: z.object(
+      {
+        id: z.number(),
+        name: z.string()
+      },
+      {
+        required_error: 'Campo obrigatório'
+      }
     )
   }),
   payment: z.object({
