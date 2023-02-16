@@ -27,7 +27,7 @@ export const NewPatientSchema = z.object({
   address: z.string({
     required_error: 'Campo obrigatório'
   }),
-  weight: z.optional(z.string()),
-  height: z.optional(z.string()),
+  weight: z.optional(z.string().or(z.number())),
+  height: z.optional(z.string().or(z.number())),
   city: z.optional(z.string())
 })

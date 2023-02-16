@@ -3,36 +3,24 @@ import Button from '@/components/Button/Button'
 import Table from '@/components/Table'
 import PageContainer from '@/styles/Layout/PageContainer'
 import { useState } from 'react'
-import { getRows } from '../../components/ClinicInfo/utils'
 import ModalNewPatient from '../../components/ModalNewPatient'
 import { useGetPatientCountList } from '../../hooks/patient/usePatientQueries'
+import { getRows, heads } from './utils'
 
 const Patient = () => {
   const [openModal, setOpenModal] = useState(false)
+  const [patientId, setPatientId] = useState<number>(null)
 
   const { data: patientCountList } = useGetPatientCountList()
 
-  const head = [
-    {
-      id: 'name',
-      label: 'Nome'
-    },
-    {
-      id: 'birthdate',
-      label: 'Idade'
-    },
-    {
-      id: 'patients_packages',
-      label: 'Pacote'
-    },
-    {
-      id: 'telephone',
-      label: 'Telefone'
-    }
-  ]
+  const handleEditPatient = (id: number) => {
+    setPatientId(id)
+    setOpenModal(true)
+  }
 
   const rows = getRows({
-    data: patientCountList?.getPatientCountList?.lastPatients
+    data: patientCountList?.getPatientCountList?.lastPatients,
+    onEditPatient: handleEditPatient
   })
 
   return (
@@ -54,12 +42,13 @@ const Patient = () => {
           </Button>
         </div>
 
-        <Table head={head} data={rows} />
+        <Table head={heads} data={rows} />
 
         {openModal && (
           <ModalNewPatient
             open={openModal}
             onClose={() => setOpenModal(false)}
+            patient_id={patientId}
           />
         )}
       </div>

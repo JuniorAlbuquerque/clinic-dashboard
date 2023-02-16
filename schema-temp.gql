@@ -38,6 +38,7 @@ type Query {
   getPackagesByTreatment(treatment_id: Float!): [PackageByTreatment!]!
   getPatientCountList: PatientListCount
   searchPatients: [PatientSearch!]!
+  getPatientById(patient_id: Float!): PatientById!
   getPatientPackageCountList: PatientPackageCountList
   getAllTreatments: [AllTreatments!]
   getAllTreatmentsWithPackages: [AllTreatmentsAndPackages!]
@@ -143,6 +144,19 @@ type PatientSearch {
   id: Float!
   email: String!
   name: String!
+}
+
+type PatientById {
+  id: Float!
+  name: String!
+  birthdate: String!
+  telephone: String!
+  email: String!
+  cpf: String
+  weight: Float
+  height: Float
+  address: String
+  city: String
 }
 
 type PatientPackageCountList {
@@ -259,8 +273,8 @@ input AppointmentUpdateData {
   id: Float!
   start_date: DateTime!
   end_date: DateTime!
-  observations: String!
-  presence: AppointmentStatus!
+  observations: String
+  presence: AppointmentStatus
 }
 
 type Auth {

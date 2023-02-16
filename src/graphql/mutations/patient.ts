@@ -8,3 +8,11 @@ export const NEW_PATIENT = gql`
     }
   }
 `
+
+export const UPDATE_PATIENT = gql`
+  mutation UpdatePatient($data: PatientUpdateInputData!) {
+    updatePatient(data: $data) {
+      message
+    }
+  }
+`

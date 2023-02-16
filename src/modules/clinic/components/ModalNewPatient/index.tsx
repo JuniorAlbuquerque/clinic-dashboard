@@ -2,21 +2,28 @@ import { Input } from '@/components/Form/Input'
 import { InputMask } from '@/components/Form/InputMask'
 import Modal from '@/components/Modal'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { NewPatientSchema } from '../../pages/Patient/schema'
 import * as z from 'zod'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
 import { useNewPatient } from '../../hooks/patient/useNewPatient'
+import { usePatientById } from '../../hooks/patient/usePatientById'
+import { useUpdatePatient } from '../../hooks/patient/useUpdatePatient'
 
 type ModalNewPatientProps = {
   open: boolean
+  patient_id?: number
   onClose(): void
 }
 
 type NewPatient = z.infer<typeof NewPatientSchema>
 
-const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
+const ModalNewPatient: FC<ModalNewPatientProps> = ({
+  open,
+  patient_id,
+  onClose
+}) => {
   const {
     handleSubmit,
     control,
@@ -28,13 +35,47 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
 
   const { user } = useAuth()
   const { createPatient } = useNewPatient()
+  const { updatePatient } = useUpdatePatient()
+
+  const { data: patient } = usePatientById(patient_id)
+
+  const modalTitle =
+    patient_id && patient?.getPatientById ? 'Editar paciente' : 'Novo paciente'
 
   const onSubmit = (data: NewPatient) => {
+    if (patient_id && patient?.getPatientById) {
+      updatePatient.mutate(
+        {
+          data: {
+            id: patient?.getPatientById?.id,
+            weight: data?.weight ? parseFloat(data?.weight?.toString()) : 0,
+            height: data?.height ? parseFloat(data?.height?.toString()) : 0,
+            name: data?.name,
+            address: data?.address,
+            birthdate: data?.birthdate,
+            cpf: data?.cpf,
+            telephone: data?.telephone,
+            city: data?.city || '',
+            email: data?.email,
+            clinic_id: parseInt(user?.clinic_id)
+          }
+        },
+        {
+          onSuccess() {
+            onClose()
+            reset()
+          }
+        }
+      )
+
+      return
+    }
+
     createPatient.mutate(
       {
         data: {
-          weight: data?.weight ? parseFloat(data?.weight) : 0,
-          height: data?.height ? parseFloat(data?.height) : 0,
+          weight: data?.weight ? parseFloat(data?.weight?.toString()) : 0,
+          height: data?.height ? parseFloat(data?.height?.toString()) : 0,
           name: data?.name,
           address: data?.address,
           birthdate: data?.birthdate,
@@ -54,6 +95,24 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
     )
   }
 
+  useEffect(() => {
+    if (patient_id && patient?.getPatientById) {
+      const patientData = patient?.getPatientById
+
+      reset({
+        address: patientData?.address,
+        birthdate: patientData?.birthdate,
+        city: patientData?.city,
+        cpf: patientData?.cpf,
+        email: patientData?.email,
+        height: patientData?.height,
+        name: patientData?.name,
+        telephone: patientData?.telephone,
+        weight: patientData?.weight
+      })
+    }
+  }, [patient?.getPatientById, patient_id, reset])
+
   return (
     <Modal
       open={open}
@@ -61,9 +120,9 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({ open, onClose }) => {
         onClose()
         reset()
       }}
-      title="Novo paciente"
+      title={modalTitle}
       onSubmit={handleSubmit(onSubmit)}
-      busy={createPatient?.isLoading}
+      busy={createPatient?.isLoading || updatePatient?.isLoading}
     >
       <form className="grid grid-cols-2 gap-3">
         <Controller

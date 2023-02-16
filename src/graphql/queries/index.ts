@@ -139,3 +139,20 @@ export const TREATMENTS_AND_PACKAGES = gql`
     }
   }
 `
+
+export const PATIENT_BY_ID = gql`
+  query GetPatientById($patientId: Float!) {
+    getPatientById(patient_id: $patientId) {
+      id
+      name
+      email
+      cpf
+      birthdate
+      telephone
+      weight
+      height
+      address
+      city
+    }
+  }
+`

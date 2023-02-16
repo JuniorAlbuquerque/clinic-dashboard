@@ -41,8 +41,8 @@ export interface AppointmentUpdateData {
   id: number;
   start_date: any;
   end_date: any;
-  observations: string;
-  presence: AppointmentStatus;
+  observations?: string | null;
+  presence?: AppointmentStatus | null;
 }
 
 export interface PackageTreatmentList {
@@ -67,6 +67,20 @@ export interface PatientPackageInputData {
   appointment: AppointmentInputData;
   schedule: ScheduleInputData;
   payment: PaymentInputData;
+}
+
+export interface PatientUpdateInputData {
+  email: string;
+  name: string;
+  telephone: string;
+  birthdate: string;
+  address: string;
+  city: string;
+  cpf: string;
+  weight: number;
+  height: number;
+  clinic_id: number;
+  id: number;
 }
 
 export interface PaymentInputData {
