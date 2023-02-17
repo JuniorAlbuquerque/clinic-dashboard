@@ -70,9 +70,12 @@ const ClinicInfo = () => {
   const [selectedCard, setSelectedCard] = useState<VariantType>('patient')
   const [page, setPage] = useState(0)
 
-  const { data: patientCountList } = useGetPatientCountList()
-  const { data: appointments } = useAllAppointments(page, itemsPerPage)
-  const { data: professionals } = useGetProfessionalCountList()
+  const { data: patientCountList, loading: patientLoading } =
+    useGetPatientCountList()
+  const { data: appointments, loading: appointmentLoading } =
+    useAllAppointments(page, itemsPerPage)
+  const { data: professionals, loading: professionalsLoading } =
+    useGetProfessionalCountList()
 
   const rows = getRows({
     data: patientCountList?.getPatientCountList?.lastPatients
@@ -83,12 +86,19 @@ const ClinicInfo = () => {
   })
 
   const currentTable = {
-    patient: <Table head={head} data={rows} />,
-    appointment: <Table head={headAppointments} data={appointmentRows} />,
+    patient: <Table head={head} data={rows} busy={patientLoading} />,
+    appointment: (
+      <Table
+        head={headAppointments}
+        data={appointmentRows}
+        busy={appointmentLoading}
+      />
+    ),
     professional: (
       <Table
         head={headProfessionals}
         data={professionals?.getProfessionalCountList.professionalList}
+        busy={professionalsLoading}
       />
     )
   }
@@ -110,6 +120,7 @@ const ClinicInfo = () => {
           onSelect={(type) => {
             setSelectedCard(type)
           }}
+          busy={patientLoading}
           count={patientCountList?.getPatientCountList?.count || 0}
         />
         <CardInfo
@@ -118,6 +129,7 @@ const ClinicInfo = () => {
           onSelect={(type) => {
             setSelectedCard(type)
           }}
+          busy={appointmentLoading}
           count={appointments?.getAllAppointments?.count}
         />
         <CardInfo
@@ -126,6 +138,7 @@ const ClinicInfo = () => {
           onSelect={(type) => {
             setSelectedCard(type)
           }}
+          busy={professionalsLoading}
           count={professionals?.getProfessionalCountList?.count || 0}
         />
       </div>

@@ -4,24 +4,31 @@ import { Input } from '@/components/Form/Input'
 import Modal from '@/components/Modal'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { TreatmentSchema } from '../../pages/Settings/schema'
 import * as z from 'zod'
 import clsx from 'clsx'
 import { useNewTreatment } from '../../hooks/treatments/useNewTreatment'
+import { GetAllTreatmentsWithPackages_getAllTreatmentsWithPackages } from '@/graphql/generated/GetAllTreatmentsWithPackages'
 
 type ModalTreatmentProps = {
   open: boolean
+  treatment?: GetAllTreatmentsWithPackages_getAllTreatmentsWithPackages
   onClose(): void
 }
 
 type TreatmentCreate = z.infer<typeof TreatmentSchema>
 
-const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
+const ModalTreatment: FC<ModalTreatmentProps> = ({
+  open,
+  treatment,
+  onClose
+}) => {
   const {
     control,
     formState: { errors },
+    reset,
     handleSubmit
   } = useForm<TreatmentCreate>({
     defaultValues: {
@@ -36,6 +43,8 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
     },
     resolver: zodResolver(TreatmentSchema)
   })
+
+  const isViewOnly = !!treatment?.id
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -64,12 +73,32 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
     )
   }
 
+  useEffect(() => {
+    if (treatment && treatment?.id) {
+      reset({
+        name: treatment?.name,
+        value: treatment?.value,
+        packages: treatment?.Package?.map((item) => ({
+          quantity: item?.quantity,
+          value: item?.value
+        }))
+      })
+    }
+  }, [reset, treatment])
+
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title="Adicionar novo tratamento"
-      onSubmit={handleSubmit(onSubmit)}
+      title={isViewOnly ? treatment?.name : 'Adicionar novo tratamento'}
+      confirmText={isViewOnly ? 'Ok' : 'Confirmar'}
+      onSubmit={() => {
+        if (isViewOnly) {
+          onClose()
+          return
+        }
+        handleSubmit(onSubmit)()
+      }}
       busy={newTreatment.isLoading}
     >
       <form className="grid grid-cols-2 gap-2">
@@ -82,6 +111,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
                 label="Nome do Tratamento"
                 value={field.value}
                 onChange={field.onChange}
+                disabled={isViewOnly}
                 error={errors?.name?.message}
               />
             )
@@ -96,6 +126,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
               <CurrencyInput
                 label="Valor Un."
                 value={value}
+                disabled={isViewOnly}
                 onValueChange={(value) => {
                   onChange(value)
                 }}
@@ -109,13 +140,15 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
           <div className="col-span-2 mb-2 flex justify-between items-center">
             <p className="font-medium">Pacotes</p>
 
-            <Button
-              type="button"
-              className="h-6 text-sm"
-              onClick={() => append({ quantity: 1, value: null })}
-            >
-              + Adicionar pacote
-            </Button>
+            {!isViewOnly && (
+              <Button
+                type="button"
+                className="h-6 text-sm"
+                onClick={() => append({ quantity: 1, value: null })}
+              >
+                + Adicionar pacote
+              </Button>
+            )}
           </div>
 
           <hr />
@@ -132,6 +165,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
                         label="Quantidade"
                         type="number"
                         value={value}
+                        disabled={isViewOnly}
                         onChange={(event) =>
                           onChange(parseInt(event.target.value))
                         }
@@ -151,6 +185,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
                         <CurrencyInput
                           label="Valor"
                           value={value}
+                          disabled={isViewOnly}
                           onValueChange={(value) => {
                             onChange(value)
                           }}
@@ -160,7 +195,7 @@ const ModalTreatment: FC<ModalTreatmentProps> = ({ open, onClose }) => {
                     }}
                   />
 
-                  {index > 0 && (
+                  {index > 0 && !isViewOnly && (
                     <button
                       className={clsx('text-red-500', {
                         'mt-6': !errors?.packages?.[index]?.value?.message

@@ -1,8 +1,10 @@
 import BreadCrumb from '@/components/BreadCrumb'
 import Button from '@/components/Button/Button'
+import Spinner from '@/components/Spinner'
 import { Text } from '@/components/Text'
+import { GetAllTreatmentsWithPackages_getAllTreatmentsWithPackages } from '@/graphql/generated/GetAllTreatmentsWithPackages'
 import PageContainer from '@/styles/Layout/PageContainer'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import { EyeIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { FC, useState } from 'react'
 import ModalTreatment from '../../components/ModalTreatment'
@@ -10,8 +12,10 @@ import { useTreatmentPackages } from '../../hooks/treatments/useTreatmentsPackag
 
 const Settings: FC = () => {
   const [openModalNewTreatment, setOpenModalNewTreatment] = useState(false)
+  const [selectedTreatment, setSelectedTreatment] =
+    useState<GetAllTreatmentsWithPackages_getAllTreatmentsWithPackages>(null)
 
-  const { data } = useTreatmentPackages()
+  const { data, loading } = useTreatmentPackages()
 
   const handleOpenModalNewTreatment = () => {
     setOpenModalNewTreatment(true)
@@ -69,23 +73,38 @@ const Settings: FC = () => {
                 </Button>
               </div>
 
-              <div className="flex flex-col gap-2">
-                {data?.getAllTreatmentsWithPackages?.map((treatment) => (
-                  <div
-                    key={treatment.id}
-                    className={clsx(
-                      'flex gap-2 items-center justify-between',
-                      'p-4 bg-primary-600 text-white rounded-lg'
-                    )}
-                  >
-                    <p>{treatment.name}</p>
+              {loading && (
+                <div className="flex ml-4 text-sm items-center text-primary-400 ">
+                  <Spinner />
+                  Carregando...
+                </div>
+              )}
 
-                    <button>
-                      <PencilSquareIcon width={20} />
-                    </button>
-                  </div>
-                ))}
-              </div>
+              {!loading && (
+                <div className="flex flex-col gap-2">
+                  {data?.getAllTreatmentsWithPackages?.map((treatment) => (
+                    <div
+                      key={treatment.id}
+                      className={clsx(
+                        'flex gap-2 items-center justify-between',
+                        'p-4 bg-primary-600 text-white rounded-lg'
+                      )}
+                    >
+                      <p>{treatment.name}</p>
+
+                      <button>
+                        <EyeIcon
+                          width={20}
+                          onClick={() => {
+                            setSelectedTreatment(treatment)
+                            setOpenModalNewTreatment(true)
+                          }}
+                        />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col gap-4 pt-6 py-4 px-4 border border-gray-300 rounded-lg">
@@ -93,24 +112,36 @@ const Settings: FC = () => {
                 <p className="font-medium text-sm">Visualização dos pacotes</p>
               </div>
 
-              <div className="flex flex-col gap-2">
-                {data?.getAllTreatmentsWithPackages?.map((treatment) => (
-                  <div
-                    key={treatment.id}
-                    className={clsx(
-                      'flex gap-2 items-center',
-                      'p-4 bg-primary-600 text-white rounded-lg'
-                    )}
-                  >
-                    <p>{treatment.name}</p>
+              {loading && (
+                <div className="flex ml-4 text-sm items-center text-primary-400 ">
+                  <Spinner />
+                  Carregando...
+                </div>
+              )}
 
-                    <span className="text-primary-300">
-                      ({treatment.Package.map((pkg) => pkg.quantity).join(', ')}
-                      )
-                    </span>
-                  </div>
-                ))}
-              </div>
+              {!loading && (
+                <div className="flex flex-col gap-2">
+                  {data?.getAllTreatmentsWithPackages?.map((treatment) => (
+                    <div
+                      key={treatment.id}
+                      className={clsx(
+                        'flex gap-2 items-center',
+                        'p-4 bg-primary-600 text-white rounded-lg'
+                      )}
+                    >
+                      <p>{treatment.name}</p>
+
+                      <span className="text-primary-300">
+                        (
+                        {treatment.Package.map((pkg) => pkg.quantity).join(
+                          ', '
+                        )}
+                        )
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -119,7 +150,11 @@ const Settings: FC = () => {
       {openModalNewTreatment && (
         <ModalTreatment
           open={openModalNewTreatment}
-          onClose={() => setOpenModalNewTreatment(false)}
+          onClose={() => {
+            setOpenModalNewTreatment(false)
+            setSelectedTreatment(null)
+          }}
+          treatment={selectedTreatment}
         />
       )}
     </PageContainer>

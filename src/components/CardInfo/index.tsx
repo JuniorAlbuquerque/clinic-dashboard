@@ -3,6 +3,7 @@ import { Text } from '../Text'
 import { ReactComponent as AppointmentUserIcon } from '@/assets/appointment-user.svg'
 import { ReactComponent as PatientsIcon } from '@/assets/patients.svg'
 import { ReactComponent as DoctorIcon } from '@/assets/doctor.svg'
+import Spinner from '../Spinner'
 
 export type VariantType = 'patient' | 'professional' | 'appointment'
 
@@ -10,6 +11,7 @@ type CardInfoProps = {
   active?: boolean
   variant?: VariantType
   count?: number
+  busy?: boolean
   onSelect?: (type?: VariantType) => void
 }
 
@@ -23,7 +25,13 @@ type RenderByVariantType = {
   }
 }
 
-const CardInfo: FC<CardInfoProps> = ({ active, variant, count, onSelect }) => {
+const CardInfo: FC<CardInfoProps> = ({
+  active,
+  busy,
+  variant,
+  count,
+  onSelect
+}) => {
   const renderByVariant: RenderByVariantType = {
     patient: {
       icon: PatientsIcon,
@@ -76,11 +84,23 @@ const CardInfo: FC<CardInfoProps> = ({ active, variant, count, onSelect }) => {
         <div
           className={`${renderByVariant[variant].numberColor} text-white w-40 md:w-48 p-2 md:p-4 rounded-3xl flex items-center justify-center font-medium text-5xl`}
         >
-          {count}
+          {busy ? (
+            <div className="ml-7">
+              <Spinner />
+            </div>
+          ) : (
+            count
+          )}
         </div>
       ) : (
         <div className="text-black w-40 md:w-48 flex mb-4 items-center justify-center font-medium text-5xl">
-          {count}
+          {busy ? (
+            <div className="ml-7">
+              <Spinner />
+            </div>
+          ) : (
+            count
+          )}
         </div>
       )}
     </div>

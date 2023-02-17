@@ -13,9 +13,10 @@ type TableHead = {
 type TableProps = {
   data: TableData[]
   head: TableHead[]
+  busy?: boolean
 }
 
-const Table: FC<TableProps> = ({ data, head }) => {
+const Table: FC<TableProps> = ({ data, head, busy }) => {
   return (
     <div className=" overflow-x-auto shadow ring-1 ring-black ring-opacity-0 md:rounded-lg">
       <table className="min-w-full divide-y border-collapse divide-gray-200">
@@ -33,18 +34,30 @@ const Table: FC<TableProps> = ({ data, head }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 bg-white">
-          {data?.map((row, index) => (
-            <tr key={index}>
-              {head?.map((column) => (
-                <td
-                  key={column.id}
-                  className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                >
-                  {row[column.id]}
-                </td>
-              ))}
+          {busy && (
+            <tr>
+              <td
+                className="whitespace-nowrap text-center py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                colSpan={12}
+              >
+                Carregando...
+              </td>
             </tr>
-          ))}
+          )}
+
+          {!busy &&
+            data?.map((row, index) => (
+              <tr key={index}>
+                {head?.map((column) => (
+                  <td
+                    key={column.id}
+                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                  >
+                    {row[column.id]}
+                  </td>
+                ))}
+              </tr>
+            ))}
 
           {data?.length === 0 && (
             <tr>

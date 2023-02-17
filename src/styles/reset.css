@@ -213,3 +213,7 @@ a:active {
 .react-datetime-picker__wrapper {
   border: none;
 }
+
+.react-datetime-picker__inputGroup__year {
+  width: 34px !important;
+}

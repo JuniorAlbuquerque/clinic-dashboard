@@ -43,6 +43,7 @@ export const CurrencyInput: FC<InputProps> = ({
             onValueChange(value, name)
           }}
           id={currentId}
+          disabled={disabled}
         />
       </div>
 

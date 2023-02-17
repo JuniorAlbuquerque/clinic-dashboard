@@ -88,7 +88,7 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
       title={`Atendimento nº ${event?.id}`}
       confirmText="Atualizar"
       onSubmit={handleSubmit(onSubmit)}
-      // busy={newTreatment.isLoading}
+      busy={updateAppointment.isLoading}
     >
       <div className="flex flex-col gap-2">
         <Input label="Paciente" defaultValue={event?.patient} disabled />
