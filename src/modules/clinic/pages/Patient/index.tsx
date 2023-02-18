@@ -47,7 +47,10 @@ const Patient = () => {
         {openModal && (
           <ModalNewPatient
             open={openModal}
-            onClose={() => setOpenModal(false)}
+            onClose={() => {
+              setOpenModal(false)
+              setPatientId(null)
+            }}
             patient_id={patientId}
           />
         )}

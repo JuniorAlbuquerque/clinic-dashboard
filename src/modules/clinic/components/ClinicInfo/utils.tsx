@@ -32,9 +32,18 @@ export const getAppoitmentRows = ({
 }: GetAppointmentRowsProps): Record<string, unknown>[] => {
   return data?.map((item) => {
     const translatePresence = {
-      PENDING: 'Pendente atendimento',
-      PATIENT_MISSED: 'Paciente faltou',
-      CONCLUDED: 'Atendimento Finalizado'
+      PENDING: {
+        message: 'Pendente atendimento',
+        class: 'bg-gray-100 text-gray-800'
+      },
+      PATIENT_MISSED: {
+        message: 'Paciente faltou',
+        class: 'bg-pink-100 text-pink-800'
+      },
+      CONCLUDED: {
+        message: 'Atendimento Finalizado',
+        class: 'bg-green-100 text-green-800'
+      }
     }
 
     const { patient, start_date, end_date, professional, treatment, presence } =
@@ -45,7 +54,17 @@ export const getAppoitmentRows = ({
       start_date: format(new Date(start_date), 'dd/MM/yyyy HH:mm'),
       end_date: format(new Date(end_date), 'dd/MM/yyyy HH:mm'),
       treatment,
-      presence: translatePresence[presence!],
+      presence: (
+        <div>
+          <span
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              translatePresence[presence!]?.class
+            }`}
+          >
+            {translatePresence[presence!]?.message}
+          </span>
+        </div>
+      ),
       professional
     }
   })

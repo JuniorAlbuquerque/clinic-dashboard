@@ -147,7 +147,7 @@ const ClinicInfo = () => {
         {currentTable[selectedCard!]}
 
         {selectedCard === 'appointment' &&
-          appointments?.getAllAppointments?.count > 10 && (
+          appointments?.getAllAppointments?.count > 5 && (
             <div className="flex mt-4 justify-end">
               <ReactPaginate
                 breakLabel="..."

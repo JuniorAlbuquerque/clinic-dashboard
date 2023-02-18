@@ -70,7 +70,7 @@ export const PaymentForm: FC<PaymentFormProps> = ({
                 value={value || ''}
                 onChange={(event) => {
                   const discount = event.target.value
-                  onChange(parseInt(discount))
+                  onChange(isNaN(parseInt(discount)) ? 0 : parseInt(discount))
                 }}
               />
             )
@@ -124,7 +124,7 @@ export const PaymentForm: FC<PaymentFormProps> = ({
           render={({ field: { value, onChange } }) => {
             return (
               <DatePicker
-                label="Date do pagamento"
+                label="Data do pagamento"
                 value={value}
                 onDateChange={onChange}
               />
