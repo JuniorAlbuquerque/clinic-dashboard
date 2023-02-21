@@ -32,7 +32,10 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwind-scrollbar')],
+  plugins: [
+    require('tailwind-scrollbar'),
+    require('@rvxlab/tailwind-plugin-ios-full-height')
+  ],
   variants: {
     scrollbar: ['rounded']
   }
