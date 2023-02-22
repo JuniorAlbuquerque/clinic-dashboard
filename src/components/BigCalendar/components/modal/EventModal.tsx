@@ -9,6 +9,7 @@ import Button from '@/components/Button/Button'
 import { TextArea } from '@/components/Form/TextArea'
 import { Controller, useForm } from 'react-hook-form'
 import { useUpdateAppointment } from '@/modules/clinic/hooks/appointments/useUpdateAppointment'
+import { addMinutes } from 'date-fns'
 
 type EventModalProps = {
   open: boolean
@@ -47,7 +48,7 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
 
   const { updateAppointment } = useUpdateAppointment()
 
-  const { control, handleSubmit, reset } = useForm<EventUpdateData>()
+  const { control, handleSubmit, reset, setValue } = useForm<EventUpdateData>()
 
   const onSubmit = (data: EventUpdateData) => {
     updateAppointment.mutate(
@@ -68,7 +69,6 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
 
   useEffect(() => {
     if (event) {
-      console.log(event)
       reset({
         id: event?.id,
         observations: event?.observations,
@@ -80,6 +80,13 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
       })
     }
   }, [event, reset])
+
+  useEffect(() => {
+    if (!reschedule) {
+      setValue('start_date', event?.start)
+      setValue('end_date', event?.end)
+    }
+  }, [reschedule, event, setValue])
 
   return (
     <Modal
@@ -133,7 +140,7 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
           render={({ field: { value, onChange } }) => {
             return (
               <TextArea
-                value={value}
+                value={value || ''}
                 onChange={onChange}
                 label="Observações do atendimento"
               />
@@ -145,7 +152,7 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
           className="h-8 mt-2 ml-auto"
           onClick={() => setReschedule((prevState) => !prevState)}
         >
-          Reagendar
+          {!reschedule ? 'Reagendar' : 'Cancelar Reagendamento'}
         </Button>
 
         <Controller
@@ -157,7 +164,10 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
                 label="Data e Hora Início"
                 value={value}
                 disabled={!reschedule}
-                onDateChange={onChange}
+                onDateChange={(date) => {
+                  onChange(date)
+                  setValue('end_date', addMinutes(date, 50))
+                }}
               />
             )
           }}
@@ -171,7 +181,9 @@ export const EventModal: FC<EventModalProps> = ({ open, event, onClose }) => {
               <DateTimePicker
                 label="Data e Hora Fim"
                 value={value}
-                disabled={!reschedule}
+                disabled
+                clearIcon={null}
+                calendarIcon={null}
                 onDateChange={onChange}
               />
             )

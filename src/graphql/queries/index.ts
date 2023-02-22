@@ -156,3 +156,64 @@ export const PATIENT_BY_ID = gql`
     }
   }
 `
+
+export const ALL_PATIENT_PACKAGE_LIST = gql`
+  query GetAllPatientPackageList($itemsPerPage: Float, $page: Float) {
+    getAllPatientPackageList(items_per_page: $itemsPerPage, page: $page) {
+      data {
+        id
+        patient
+        treatment
+        package
+        professional
+        start_date
+        end_date
+      }
+      count
+    }
+  }
+`
+
+export const PATIENT_PACKAGE_BY_ID = gql`
+  query GetPatientPackageById($getPatientPackageByIdId: Float!) {
+    getPatientPackageById(id: $getPatientPackageByIdId) {
+      id
+      description
+      value
+      package {
+        quantity
+        treatment {
+          name
+        }
+      }
+      history {
+        id
+        initial_date
+        end_date
+        payment_status
+        payment_type
+        payment_date
+        week_days
+      }
+      appointments {
+        id
+        start_date
+        end_date
+        presence
+        observations
+      }
+      patient {
+        id
+        name
+        email
+        cpf
+        birthdate
+        telephone
+        height
+        weight
+        address
+        city
+      }
+    }
+  }
+`

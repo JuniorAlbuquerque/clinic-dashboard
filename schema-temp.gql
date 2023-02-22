@@ -40,6 +40,8 @@ type Query {
   searchPatients: [PatientSearch!]!
   getPatientById(patient_id: Float!): PatientById!
   getPatientPackageCountList: PatientPackageCountList
+  getAllPatientPackageList(items_per_page: Float, page: Float): PatientPackageList!
+  getPatientPackageById(id: Float!): PatientPackageById!
   getAllTreatments: [AllTreatments!]
   getAllTreatmentsWithPackages: [AllTreatmentsAndPackages!]
   getUserInfo(id: Float!): User
@@ -193,6 +195,76 @@ type TreatmentModelPackage {
   name: String!
 }
 
+type PatientPackageList {
+  data: [PatientPackageListItem!]!
+  count: Float!
+}
+
+type PatientPackageListItem {
+  id: Float!
+  patient: String!
+  treatment: String!
+  package: Float!
+  professional: String!
+  start_date: DateTime!
+  end_date: DateTime!
+}
+
+type PatientPackageById {
+  id: Float!
+  description: String!
+  value: Float!
+  package: PatientPackageById_Package!
+  appointments: [PatientPackageById_Appointment!]!
+  history: [PatientPackageById_History!]!
+  patient: PatientPackageById_Patient!
+}
+
+type PatientPackageById_Package {
+  quantity: Float!
+  treatment: PatientPackageById_Treatment!
+}
+
+type PatientPackageById_Treatment {
+  name: String!
+}
+
+type PatientPackageById_Appointment {
+  id: Float!
+  start_date: DateTime!
+  end_date: DateTime!
+  presence: AppointmentStatus
+  observations: String
+}
+
+type PatientPackageById_History {
+  id: Float!
+  initial_date: DateTime!
+  end_date: DateTime!
+  payment_status: PaymentStatus
+  payment_date: DateTime
+  payment_type: PaymentType
+  week_days: String!
+}
+
+enum PaymentType {
+  CREDIT_CARD
+  MONEY
+}
+
+type PatientPackageById_Patient {
+  id: Float!
+  birthdate: String!
+  address: String
+  city: String
+  cpf: String
+  email: String!
+  height: Float
+  name: String!
+  telephone: String!
+  weight: Float
+}
+
 type AllTreatments {
   id: ID!
   name: String!
@@ -256,10 +328,13 @@ type ProfessionalSchedule {
 
 type Mutation {
   updateAppointment(data: AppointmentUpdateData!): AppointmentResponse!
+  deleteAppointment(id: Float!): AppointmentResponse!
   login(data: UserLoginData!): Auth!
   createPatient(data: PatientInputData!): Patient!
   updatePatient(data: PatientUpdateInputData!): PatientReponse!
   createPatientPackage(data: PatientPackageInputData!): PatientPackageCreate!
+  renovatePatientPackage(data: PatientPackageRenovateInputData!): PatientPackageCreate!
+  updatePackagePayment(data: UpdatePackageHistoryPaymentInputData!): PatientPackageCreate!
   createTreatment(packages: [PackageTreatmentList!]!, data: TreatmentInputData!): TreatmentModel!
   updateTreatment(data: TreatmentUpdate!): TreatmentUpdated!
   signUp(data: UserInputData!): User!
@@ -347,25 +422,42 @@ input AppointmentInputData {
 
 input ScheduleInputData {
   initial_date: DateTime!
-  appointment_days: [AppointmentDays!]!
+  weekDays: WeekDays!
+  best_hour: String!
+  quantity_month: Float
 }
 
-input AppointmentDays {
-  start_date: DateTime!
-  end_date: DateTime!
+input WeekDays {
+  seg: Boolean!
+  ter: Boolean!
+  qua: Boolean!
+  qui: Boolean!
+  sex: Boolean!
+  sab: Boolean!
 }
 
 input PaymentInputData {
-  discount: Float!
+  discount: Float
+  increase: Float
   payment_type: PaymentType!
   payment_schedule: Boolean!
-  payment_date: DateTime!
+  payment_date: DateTime
   payment_status: PaymentStatus!
 }
 
-enum PaymentType {
-  CREDIT_CARD
-  MONEY
+input PatientPackageRenovateInputData {
+  patient_package_id: Float!
+  start_date: DateTime!
+  hour: String!
+  weekDays: WeekDays!
+  payment: PaymentInputData!
+}
+
+input UpdatePackageHistoryPaymentInputData {
+  id: Float!
+  payment_status: PaymentStatus
+  payment_date: DateTime
+  payment_type: PaymentType
 }
 
 type TreatmentModel {

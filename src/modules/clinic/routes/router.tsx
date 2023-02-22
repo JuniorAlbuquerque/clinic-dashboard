@@ -5,6 +5,8 @@ import MainLayout from '@/styles/Layout/MainLayout'
 import Patient from '../pages/Patient'
 import NewAppointment from '../pages/NewAppointment'
 import Settings from '../pages/Settings'
+import Packages from '../pages/Packages'
+import PackageView from '../pages/PackageView'
 
 const ClinicRoutes: RouteObject = {
   element: <MainLayout />,
@@ -28,6 +30,14 @@ const ClinicRoutes: RouteObject = {
     {
       element: <Settings />,
       path: '/settings'
+    },
+    {
+      element: <Packages />,
+      path: '/packages'
+    },
+    {
+      element: <PackageView />,
+      path: '/packages/:id'
     }
   ]
 }

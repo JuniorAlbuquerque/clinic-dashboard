@@ -51,7 +51,7 @@ const Table: FC<TableProps> = ({ data, head, busy }) => {
                 {head?.map((column) => (
                   <td
                     key={column.id}
-                    className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                    className="min-w-[200px] max-w-[280px] py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                   >
                     {row[column.id]}
                   </td>

@@ -38,7 +38,7 @@ export const DatePicker: FC<DatePickerProps> = ({
       )}
 
       <ReactDatePicker
-        className="w-full rounded-md border border-gray-300 bg-white py-1.5 pl-3 pr-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-md border border-gray-300 bg-white py-1.5 pb-1.5 pl-3 pr-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
         onChange={handleChangeDate}
         calendarClassName="custom-calendar"
         value={value}
@@ -57,7 +57,7 @@ export const DatePicker: FC<DatePickerProps> = ({
         {...rest}
       />
 
-      {!!error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+      {!!error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   )
 }

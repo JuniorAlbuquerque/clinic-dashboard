@@ -2,7 +2,7 @@ import { DatePicker } from '@/components/DatePicker'
 import { GroupDays } from '@/components/GroupDays'
 import { Input } from '@/components/Form/Input'
 import { Text } from '@/components/Text'
-import { FC, Fragment, useCallback, useState } from 'react'
+import { FC, Fragment } from 'react'
 import {
   Control,
   Controller,
@@ -11,12 +11,12 @@ import {
   UseFormWatch
 } from 'react-hook-form'
 import { AppointmentData } from '..'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
-import { addDays, format, setHours, setMinutes } from 'date-fns'
-import { addMinutes } from 'date-fns/esm'
-import { capitalizeFirstLetter } from '@/utils/autocapitalize'
-import { useDebouncedEffect } from '@/utils/hooks/useDebounceEffect'
-import ptBR from 'date-fns/locale/pt-BR'
+// import { PencilSquareIcon } from '@heroicons/react/24/outline'
+// import { addDays, format, setHours, setMinutes } from 'date-fns'
+// import { addMinutes } from 'date-fns/esm'
+// import { capitalizeFirstLetter } from '@/utils/autocapitalize'
+// import { useDebouncedEffect } from '@/utils/hooks/useDebounceEffect'
+// import ptBR from 'date-fns/locale/pt-BR'
 import { ListBox } from '@/components/Form/ListBox'
 
 type ScheduleFormProps = {
@@ -24,10 +24,6 @@ type ScheduleFormProps = {
   errors?: FormState<AppointmentData>['errors']
   watch?: UseFormWatch<AppointmentData>
   setValue?: UseFormSetValue<AppointmentData>
-}
-
-type WeekDays = {
-  [key: string]: boolean
 }
 
 const data = [
@@ -44,83 +40,81 @@ const data = [
 export const ScheduleForm: FC<ScheduleFormProps> = ({
   control,
   errors,
-  watch,
-  setValue
+  watch
 }) => {
-  const [bestHour, setBestHour] = useState('08:00')
-  const [days, setDays] = useState<WeekDays>({})
-  const [completeddMonth, setCompletedMonth] = useState({
-    id: 0,
-    name: 'Não'
-  })
-  const packageQuantity = watch('appointment.package')
-  const initial_date = watch('schedule.initial_date')
-  const appointmentDays = watch('schedule.apppointmend_days')
+  // const [bestHour, setBestHour] = useState('08:00')
+  // const [completeddMonth, setCompletedMonth] = useState({
+  //   id: 0,
+  //   name: 'Não'
+  // })
+  // const packageQuantity = watch('appointment.package')
+  // const initial_date = watch('schedule.initial_date')
+  // const appointmentDays = watch('schedule.apppointmend_days')
 
-  const isAllowedDay = useCallback(
-    (date: Date) => {
-      const day = format(date, 'EEEEEE', {
-        locale: ptBR
-      })
+  // const isAllowedDay = useCallback(
+  //   (date: Date) => {
+  //     const day = format(date, 'EEEEEE', {
+  //       locale: ptBR
+  //     })
 
-      return days[day]
-    },
-    [days]
-  )
+  //     return days[day]
+  //   },
+  //   [days]
+  // )
 
-  const generateDays = useCallback(
-    (currentDate: Date, quantity: number, best_hour: string) => {
-      if (quantity === 1 && Object.values(days).filter(Boolean).length > 1) {
-        return
-      }
+  // const generateDays = useCallback(
+  //   (currentDate: Date, quantity: number, best_hour: string) => {
+  //     if (quantity === 1 && Object.values(days).filter(Boolean).length > 1) {
+  //       return
+  //     }
 
-      const arrDate = []
+  //     const arrDate = []
 
-      const [hour, minute] = best_hour.split(':').map((str) => parseInt(str))
+  //     const [hour, minute] = best_hour.split(':').map((str) => parseInt(str))
 
-      if (isNaN(hour) || isNaN(minute)) return
+  //     if (isNaN(hour) || isNaN(minute)) return
 
-      while (arrDate.length < quantity) {
-        if (isAllowedDay(currentDate)) {
-          const initial_date = setMinutes(setHours(currentDate, hour), minute)
+  //     while (arrDate.length < quantity) {
+  //       if (isAllowedDay(currentDate)) {
+  //         const initial_date = setMinutes(setHours(currentDate, hour), minute)
 
-          arrDate.push({
-            initial_date,
-            end_date: addMinutes(initial_date, 50)
-          })
-        }
+  //         arrDate.push({
+  //           initial_date,
+  //           end_date: addMinutes(initial_date, 50)
+  //         })
+  //       }
 
-        currentDate = addDays(currentDate, 1)
-      }
+  //       currentDate = addDays(currentDate, 1)
+  //     }
 
-      // setAppointmentDays(arrDate)
-      setValue('schedule.apppointmend_days', arrDate)
-    },
-    [days, isAllowedDay, setValue]
-  )
+  //     // setAppointmentDays(arrDate)
+  //     setValue('schedule.apppointmend_days', arrDate)
+  //   },
+  //   [days, isAllowedDay, setValue]
+  // )
 
-  useDebouncedEffect(
-    () => {
-      if (Object.values(days).filter(Boolean).length === 0 || !initial_date) {
-        setValue('schedule.apppointmend_days', [])
-      }
+  // useDebouncedEffect(
+  //   () => {
+  //     if (Object.values(days).filter(Boolean).length === 0 || !initial_date) {
+  //       setValue('schedule.apppointmend_days', [])
+  //     }
 
-      if (
-        packageQuantity?.quantity &&
-        initial_date &&
-        Object.values(days).filter(Boolean).length > 0
-      ) {
-        if (completeddMonth?.id === 1) {
-          generateDays(initial_date, packageQuantity?.quantity * 4, bestHour)
-        } else {
-          generateDays(initial_date, packageQuantity?.quantity, bestHour)
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [packageQuantity, bestHour, initial_date, days, completeddMonth],
-    300
-  )
+  //     if (
+  //       packageQuantity?.quantity &&
+  //       initial_date &&
+  //       Object.values(days).filter(Boolean).length > 0
+  //     ) {
+  //       if (completeddMonth?.id === 1) {
+  //         generateDays(initial_date, packageQuantity?.quantity * 4, bestHour)
+  //       } else {
+  //         generateDays(initial_date, packageQuantity?.quantity, bestHour)
+  //       }
+  //     }
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [packageQuantity, bestHour, initial_date, days, completeddMonth],
+  //   300
+  // )
 
   return (
     <Fragment>
@@ -147,17 +141,35 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
           }}
         />
 
-        <Input
-          label="Melhor Horário"
-          type="time"
-          value={bestHour}
-          onChange={(event) => setBestHour(event.target.value)}
+        <Controller
+          name="schedule.best_hour"
+          control={control}
+          render={({ field: { value, onChange } }) => {
+            return (
+              <Input
+                label="Melhor Horário"
+                type="time"
+                value={value}
+                onChange={(event) => onChange(event.target.value)}
+                error={errors?.schedule?.best_hour?.message}
+              />
+            )
+          }}
         />
 
-        <GroupDays
-          limitDays={watch('appointment.package')?.quantity || null}
-          onChangeDays={(days) => {
-            setDays(days)
+        <Controller
+          control={control}
+          name="schedule.weekDays"
+          render={({ field: { onChange } }) => {
+            return (
+              <GroupDays
+                limitDays={watch('appointment.package')?.quantity || null}
+                onChangeDays={(days) => {
+                  onChange(days)
+                }}
+                error={errors?.schedule?.weekDays?.message}
+              />
+            )
           }}
         />
 
@@ -172,7 +184,7 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
                 data={data || []}
                 label="Mês inteiro"
                 onChange={(item) => {
-                  setCompletedMonth(item)
+                  // setCompletedMonth(item)
                   onChange(item)
                 }}
               />
@@ -180,7 +192,7 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
           }}
         />
 
-        <div className="w-full mt-2 md:col-span-2 lg:col-span-1">
+        {/* <div className="w-full mt-2 md:col-span-2 lg:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Agenda de atendimentos
           </label>
@@ -227,7 +239,7 @@ export const ScheduleForm: FC<ScheduleFormProps> = ({
               Nenhum pacote ou dia da semana selecionado...
             </Text>
           )}
-        </div>
+        </div> */}
       </div>
     </Fragment>
   )

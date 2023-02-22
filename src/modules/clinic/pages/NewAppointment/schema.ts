@@ -38,15 +38,34 @@ export const AppointmentSchema = z.object({
       required_error: 'Camppo obrigatório',
       invalid_type_error: 'Data inválida'
     }),
-    apppointmend_days: z.array(
-      z.object({
-        initial_date: z.date(),
-        end_date: z.date()
-      }),
-      {
-        required_error: 'Camppo obrigatório'
-      }
-    ),
+    best_hour: z
+      .string({
+        required_error: 'Camppo obrigatório',
+        invalid_type_error: 'Campo obrigatório'
+      })
+      .min(1, 'Campo obrigatório'),
+    weekDays: z
+      .object(
+        {
+          seg: z.boolean(),
+          ter: z.boolean(),
+          qua: z.boolean(),
+          qui: z.boolean(),
+          sex: z.boolean(),
+          sab: z.boolean()
+        },
+        {
+          required_error: 'Campo obrigatório'
+        }
+      )
+      .refine(
+        (obj) => {
+          return Object.values(obj).some((value) => value === true)
+        },
+        {
+          message: 'Campo obrigatório'
+        }
+      ),
     completed_month: z.object(
       {
         id: z.number(),

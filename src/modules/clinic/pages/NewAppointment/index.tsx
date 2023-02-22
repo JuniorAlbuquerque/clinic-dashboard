@@ -10,7 +10,11 @@ import * as z from 'zod'
 import { AppointmentSchema } from './schema'
 import { useNewAppointment } from '../../hooks/appointments/useNewAppointment'
 import { useAuth } from '@/modules/auth/hooks/useAuth'
-import { PaymentStatus, PaymentType } from '@/graphql/generated/globalTypes'
+import {
+  PaymentStatus,
+  PaymentType,
+  WeekDays
+} from '@/graphql/generated/globalTypes'
 import { useEffect } from 'react'
 
 export type AppointmentData = z.infer<typeof AppointmentSchema>
@@ -27,9 +31,10 @@ const NewAppointment = () => {
     defaultValues: {
       schedule: {
         completed_month: {
-          id: 0,
-          name: 'Não'
-        }
+          id: 1,
+          name: 'Sim'
+        },
+        best_hour: ''
       }
     }
   })
@@ -49,10 +54,9 @@ const NewAppointment = () => {
       },
       schedule: {
         initial_date: data?.schedule?.initial_date,
-        appointment_days: data?.schedule?.apppointmend_days?.map((date) => ({
-          start_date: date.initial_date,
-          end_date: date?.end_date
-        }))
+        weekDays: data?.schedule?.weekDays as WeekDays,
+        best_hour: data?.schedule?.best_hour,
+        quantity_month: data?.schedule?.completed_month?.id === 1 ? 1 : null
       },
       payment: {
         discount: data?.payment?.discount ? data?.payment?.discount : 0,
@@ -63,10 +67,6 @@ const NewAppointment = () => {
       }
     })
   }
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <PageContainer className="bg-primary-50 rounded-l-2xl">

@@ -61,6 +61,7 @@ export const ComboBox: FC<ComboBoxProps> = ({
 
       <div className="relative mt-1">
         <Combobox.Input
+          autoComplete="off"
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(item: ComboBoxItem) => item?.name}

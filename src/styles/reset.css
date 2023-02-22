@@ -231,5 +231,5 @@ body {
 }
 
 .rbc-time-column.rbc-today {
-  background: rgba(69, 40, 90, 0.11) !important
+  background: rgb(255 192 192 / 11%) !important;
 }

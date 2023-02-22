@@ -21,7 +21,6 @@ export const PaymentForm: FC<PaymentFormProps> = ({
 }) => {
   const totalValue = watch('appointment.package')?.value
   const discount = watch('payment.discount')
-  const isCompletedMonth = watch('schedule.completed_month')?.id === 1
 
   const [valueWithDiscount, setValueWithDiscount] = useState(0)
 
@@ -47,15 +46,11 @@ export const PaymentForm: FC<PaymentFormProps> = ({
         </Text>
       </div>
 
-      <div className="mt-4 grid md:grid-cols-2 gap-4">
+      <div className="mt-4 mb-2 grid md:grid-cols-2 gap-4">
         <Input
           label="Valor total (sem desconto)"
           disabled
-          value={
-            totalValue
-              ? formatCurrency(isCompletedMonth ? totalValue * 4 : totalValue)
-              : formatCurrency(0)
-          }
+          value={totalValue ? formatCurrency(totalValue) : formatCurrency(0)}
         />
 
         <Controller
@@ -79,11 +74,7 @@ export const PaymentForm: FC<PaymentFormProps> = ({
         <Input
           label="Valor total (com desconto)"
           disabled
-          value={
-            formatCurrency(
-              isCompletedMonth ? valueWithDiscount * 4 : valueWithDiscount
-            ) || ''
-          }
+          value={formatCurrency(valueWithDiscount) || ''}
         />
 
         <Controller
@@ -112,6 +103,7 @@ export const PaymentForm: FC<PaymentFormProps> = ({
                 data={paymentList || []}
                 label="Tipo de Pagamento"
                 onChange={onChange}
+                placement="top"
                 error={errors?.payment?.payment_type?.message}
               />
             )

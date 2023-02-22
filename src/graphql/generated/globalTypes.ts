@@ -24,11 +24,6 @@ export enum PaymentType {
   MONEY = "MONEY",
 }
 
-export interface AppointmentDays {
-  start_date: any;
-  end_date: any;
-}
-
 export interface AppointmentInputData {
   package_id: number;
   patient_id: number;
@@ -69,6 +64,14 @@ export interface PatientPackageInputData {
   payment: PaymentInputData;
 }
 
+export interface PatientPackageRenovateInputData {
+  patient_package_id: number;
+  start_date: any;
+  hour: string;
+  weekDays: WeekDays;
+  payment: PaymentInputData;
+}
+
 export interface PatientUpdateInputData {
   email: string;
   name: string;
@@ -84,16 +87,19 @@ export interface PatientUpdateInputData {
 }
 
 export interface PaymentInputData {
-  discount: number;
+  discount?: number | null;
+  increase?: number | null;
   payment_type: PaymentType;
   payment_schedule: boolean;
-  payment_date: any;
+  payment_date?: any | null;
   payment_status: PaymentStatus;
 }
 
 export interface ScheduleInputData {
   initial_date: any;
-  appointment_days: AppointmentDays[];
+  weekDays: WeekDays;
+  best_hour: string;
+  quantity_month?: number | null;
 }
 
 export interface TreatmentInputData {
@@ -101,9 +107,25 @@ export interface TreatmentInputData {
   value: number;
 }
 
+export interface UpdatePackageHistoryPaymentInputData {
+  id: number;
+  payment_status?: PaymentStatus | null;
+  payment_date?: any | null;
+  payment_type?: PaymentType | null;
+}
+
 export interface UserLoginData {
   email: string;
   password: string;
+}
+
+export interface WeekDays {
+  seg: boolean;
+  ter: boolean;
+  qua: boolean;
+  qui: boolean;
+  sex: boolean;
+  sab: boolean;
 }
 
 //==============================================================

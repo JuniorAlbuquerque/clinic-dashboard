@@ -187,7 +187,7 @@ const ModalNewPatient: FC<ModalNewPatientProps> = ({
           render={({ field: { value, onChange } }) => {
             return (
               <InputMask
-                label="Cpf*"
+                label="Cpf"
                 className="col-span-2"
                 maskOptions={{
                   masks: ['###.###.###-##'],

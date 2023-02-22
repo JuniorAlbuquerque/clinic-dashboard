@@ -18,9 +18,11 @@ export const NewPatientSchema = z.object({
   telephone: z.string({
     required_error: 'Campo obrigatório'
   }),
-  cpf: z.string({
-    required_error: 'Campo obrigatório'
-  }),
+  cpf: z.optional(
+    z.string({
+      required_error: 'Campo obrigatório'
+    })
+  ),
   birthdate: z.string({
     required_error: 'Campo obrigatório'
   }),

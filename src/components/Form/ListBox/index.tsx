@@ -15,6 +15,7 @@ type ListBoxProps<T> = {
   value?: ListBoxItem<T>
   disabled?: boolean
   error?: string
+  placement?: 'bottom' | 'top'
   onChange?(item?: ListBoxItem<T>): void
 }
 
@@ -24,6 +25,7 @@ export function ListBox<T>({
   value,
   disabled,
   error,
+  placement = 'bottom',
   onChange
 }: ListBoxProps<T>) {
   return (
@@ -60,7 +62,14 @@ export function ListBox<T>({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options
+                className={clsx(
+                  'absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+                  {
+                    'bottom-full': placement === 'top'
+                  }
+                )}
+              >
                 {data.map((item) => (
                   <Listbox.Option
                     key={item.id}
