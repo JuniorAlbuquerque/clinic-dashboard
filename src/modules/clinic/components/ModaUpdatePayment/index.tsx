@@ -61,7 +61,7 @@ const ModalUpdatePayment: FC<ModalUpdatePaymentProps> = ({
   useEffect(() => {
     if (data) {
       reset({
-        payment_date: data?.payment_date,
+        payment_date: data?.payment_date ? new Date(data?.payment_date) : null,
         payment_status: data?.payment_status
           ? paymentStatusList?.find((item) => item?.id === data?.payment_status)
           : null,
