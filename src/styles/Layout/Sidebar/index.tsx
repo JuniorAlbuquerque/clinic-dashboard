@@ -11,12 +11,12 @@ const Sidebar: FC = () => {
 
   return (
     <div className="flex flex-col gap-8 w-20 h-screen h-screen-ios min-h-screen-ios z-50 bg-primary-700 text-white items-center px-8 py-4">
-      <Link to="/home">
-        <LogoFlower width={46} height={50} />
-      </Link>
+      <nav className="flex flex-col flex-1 fixed top-8">
+        <Link to="/home">
+          <LogoFlower width={46} height={50} />
+        </Link>
 
-      <nav className="flex flex-col flex-1">
-        <ul className="h-full flex flex-1 flex-col gap-4">
+        <ul className="h-full mt-8 flex flex-1 flex-col gap-4">
           {menuItems?.map((menu) => {
             const Icon = menu.icon
 
@@ -40,7 +40,7 @@ const Sidebar: FC = () => {
           })}
 
           <li
-            className="p-2 self-end text-red-500 mt-auto cursor-pointer bg-opacity-60 bg-primary-800 rounded-md flex items-center hover:text-red-600 hover:scale-105 transition-all"
+            className="p-2 fixed bottom-4 self-end text-red-500 mt-auto cursor-pointer bg-opacity-60 bg-primary-800 rounded-md flex items-center hover:text-red-600 hover:scale-105 transition-all"
             onClick={() => setOpenModalLogout(true)}
           >
             <PowerIcon width={24} />
