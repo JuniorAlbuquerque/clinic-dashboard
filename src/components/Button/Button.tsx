@@ -1,18 +1,29 @@
-import { classNames } from '@/utils/mergeClassName'
+import clsx from 'clsx'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 import { Text } from '../Text'
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ReactNode
   busy?: boolean
+  danger?: boolean
 }
 
-const Button: FC<ButtonProps> = ({ children, className, busy, ...rest }) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  className,
+  busy,
+  danger,
+  ...rest
+}) => {
   return (
     <button
-      className={classNames(
+      className={clsx(
         className,
-        'bg-primary-500 hover:bg-primary-600 rounded-lg px-4 py-3 text-white transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
+        ' rounded-lg px-4 py-3 text-white transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2',
+        {
+          'bg-red-600 hover:bg-red-700 focus:ring-red-600': danger,
+          'bg-primary-500 hover:bg-primary-600 focus:ring-primary-500': !danger
+        }
       )}
       disabled={busy || rest.disabled}
       {...rest}

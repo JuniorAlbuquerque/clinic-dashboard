@@ -7,8 +7,10 @@ import PageContainer from '@/styles/Layout/PageContainer'
 import { calculateAge } from '@/utils/calculateAge'
 import { brStringToDate } from '@/utils/formats/date'
 import { renderEmpty } from '@/utils/renderEmpty'
+import { TrashIcon } from '@heroicons/react/24/outline'
 import { FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import DeletePatientPackage from '../../components/DeletePatientPackage'
 import ModalUpdatePayment from '../../components/ModaUpdatePayment'
 import RenovatePackage from '../../components/RenovatePackage'
 import { usePatientPackageById } from '../../hooks/patient_package/usePatientPackageById'
@@ -24,6 +26,7 @@ const PackageView: FC = () => {
 
   const [openModalRenovate, setOpenModalRenovate] = useState(false)
   const [openModalPayment, setOpenModalPayment] = useState(false)
+  const [openModalDeletePackage, setOpenModalDeletePackage] = useState(false)
   const [selectedPackageHistory, setSelectedPackageHistory] =
     useState<GetPatientPackageById_getPatientPackageById_history>(null)
 
@@ -196,9 +199,18 @@ const PackageView: FC = () => {
               </div>
             </div>
 
-            <Button onClick={() => setOpenModalRenovate(true)}>
-              Renovar Pacote
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => setOpenModalRenovate(true)}>
+                Renovar Pacote
+              </Button>
+
+              <Button onClick={() => setOpenModalDeletePackage(true)} danger>
+                <div className="flex gap-2 items-center">
+                  <TrashIcon width={20} />
+                  Excluir Pacote
+                </div>
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-col gap-1 p-4 rounded-xl border border-primary-50">
@@ -241,6 +253,14 @@ const PackageView: FC = () => {
           payment_status: selectedPackageHistory?.payment_status,
           payment_type: selectedPackageHistory?.payment_type
         }}
+      />
+
+      <DeletePatientPackage
+        open={openModalDeletePackage}
+        onClose={() => {
+          setOpenModalDeletePackage(false)
+        }}
+        patient_package_id={parseInt(id)}
       />
     </PageContainer>
   )

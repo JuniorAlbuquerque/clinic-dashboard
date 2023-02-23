@@ -335,6 +335,7 @@ type Mutation {
   createPatientPackage(data: PatientPackageInputData!): PatientPackageCreate!
   renovatePatientPackage(data: PatientPackageRenovateInputData!): PatientPackageCreate!
   updatePackagePayment(data: UpdatePackageHistoryPaymentInputData!): PatientPackageCreate!
+  deletePatientPackage(patient_package_id: Float!): PatientPackageDeleted!
   createTreatment(packages: [PackageTreatmentList!]!, data: TreatmentInputData!): TreatmentModel!
   updateTreatment(data: TreatmentUpdate!): TreatmentUpdated!
   signUp(data: UserInputData!): User!
@@ -458,6 +459,10 @@ input UpdatePackageHistoryPaymentInputData {
   payment_status: PaymentStatus
   payment_date: DateTime
   payment_type: PaymentType
+}
+
+type PatientPackageDeleted {
+  message: String!
 }
 
 type TreatmentModel {
