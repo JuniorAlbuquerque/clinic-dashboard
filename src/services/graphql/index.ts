@@ -4,7 +4,11 @@ import { RequestMiddleware } from 'graphql-request/dist/types'
 import { toast } from 'react-toastify'
 const abortController = new AbortController()
 
-function middleware(request: RequestInit) {
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function middleware(request: RequestInit) {
   const token = useUserStore.getState().token
 
   return {
